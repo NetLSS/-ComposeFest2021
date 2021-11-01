@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.codelab.basics.ui
+package com.example.jetpackcomposebasics.ui
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
