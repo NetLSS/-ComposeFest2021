@@ -1,5 +1,6 @@
 package com.example.jetpackcomposebasics
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.toColor
 import com.example.jetpackcomposebasics.ui.BasicsCodelabTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,7 +31,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String) {
-    Surface(color = MaterialTheme.colors.primary) {
+    Surface(color = MaterialTheme.colors.primary, modifier = Modifier.padding(10.dp)) {
         Text(text = "Hello $name!", modifier = Modifier.padding(24.dp)
         )
     }
