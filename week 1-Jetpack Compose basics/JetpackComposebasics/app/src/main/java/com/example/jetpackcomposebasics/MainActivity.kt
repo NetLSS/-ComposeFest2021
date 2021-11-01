@@ -43,9 +43,11 @@ fun Greeting(name: String) {
 }
 
 @Composable
-private fun MyApp() {
-    Surface(color = MaterialTheme.colors.background) {
-        Greeting("Android")
+private fun MyApp(names: List<String> = listOf("World", "Compose")) {
+    Column {
+        for (name in names) {
+            Greeting(name = name)
+        }
     }
 }
 
