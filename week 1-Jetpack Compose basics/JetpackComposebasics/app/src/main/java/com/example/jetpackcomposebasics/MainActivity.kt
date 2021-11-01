@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -33,9 +34,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String) {
-    Surface(color = MaterialTheme.colors.primary, modifier = Modifier.padding(10.dp)) {
-        Text(text = "Hello $name!", modifier = Modifier.padding(24.dp)
-        )
+    Surface(color = MaterialTheme.colors.primary, modifier = Modifier.padding(3.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = "Hello,")
+            Text(text = "$name!")
+        }
     }
 }
 
