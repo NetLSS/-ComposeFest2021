@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColor
 import com.example.jetpackcomposebasics.ui.BasicsCodelabTheme
+import kotlin.math.exp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,16 +35,21 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String) {
-    Surface(color = MaterialTheme.colors.primary,
-        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
+    var expanded = false // Don't do this
+
+    Surface(
+        color = MaterialTheme.colors.primary,
+        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+    ) {
         Row(modifier = Modifier.padding(24.dp)) {
             Column(modifier = Modifier.weight(1f)) {
 
                 Text(text = "Hello,")
                 Text(text = name)
             }
-            OutlinedButton(onClick = { /*TODO*/ }) {
-                Text(text = "Show more")
+            OutlinedButton(
+                onClick = { expanded = !expanded }) {
+                Text(if (expanded) "Show less" else "Show more")
             }
         }
     }
