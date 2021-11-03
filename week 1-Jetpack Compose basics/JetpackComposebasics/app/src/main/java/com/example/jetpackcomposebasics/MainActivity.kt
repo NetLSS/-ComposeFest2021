@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
 fun Greeting(name: String) {
 
     // remember 를 붙여주어야 변경되었을 때 UI 변경이 이루어진다.
-    val expanded = remember { mutableStateOf(false) }
+    val expanded = rememberSaveable { mutableStateOf(false) }
 
     // expanded 가 remember 이기 때문에 expanded 변경 시 extraPadding 도 변경된다.
     val extraPadding = if (expanded.value) 48.dp else 0.dp
@@ -74,7 +75,7 @@ fun Greeting(name: String) {
 @Composable
 private fun MyApp(names: List<String> = listOf("World", "Compose")) {
 
-    var shouldShowOnboarding by remember {
+    var shouldShowOnboarding by rememberSaveable {
         mutableStateOf(true) // 최초 앱 실행시에는 true 로 해서 온보딩 페이지를 보여줌
     }
 
