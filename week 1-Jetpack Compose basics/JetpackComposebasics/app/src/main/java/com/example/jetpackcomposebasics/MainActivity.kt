@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
 fun Greeting(name: String) {
 
     // remember 를 붙여주어야 변경되었을 때 UI 변경이 이루어진다.
+    // savable 을 사용해서 리스트 내려갔다 올라와도 펼침 유지하게 하기  
     val expanded = rememberSaveable { mutableStateOf(false) }
 
     // expanded 가 remember 이기 때문에 expanded 변경 시 extraPadding 도 변경된다.
@@ -75,6 +76,7 @@ fun Greeting(name: String) {
 @Composable
 private fun MyApp(names: List<String> = listOf("World", "Compose")) {
 
+    // Savable 로 화면 회전, 테마변경 등 에도 값 유지하기! 그래서 온보딩 화면은 최초만 보이도록
     var shouldShowOnboarding by rememberSaveable {
         mutableStateOf(true) // 최초 앱 실행시에는 true 로 해서 온보딩 페이지를 보여줌
     }
