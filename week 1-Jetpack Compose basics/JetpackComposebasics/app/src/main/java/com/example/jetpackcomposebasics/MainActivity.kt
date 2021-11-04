@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpackcomposebasics.ui.BasicsCodelabTheme
+import com.example.jetpackcomposebasics.ui.Blue
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,12 +73,12 @@ fun Greeting(name: String) {
                                 // TODO 버그가 있따..! 두손가락으로 버튼막누르면 앱이 중단된다..
             ) {
                 Text(text = "Hello,")
-                Text(text = name)
+                Text(text = name, style = MaterialTheme.typography.h4)
             }
             OutlinedButton(
                 onClick = { expanded = !expanded }
             ) {
-                Text(if (expanded) "Show less" else "Show more")
+                Text(if (expanded) "Show less" else "Show more", color = Blue)
             }
         }
     }
