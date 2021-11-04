@@ -1,6 +1,5 @@
 package com.example.jetpackcomposebasics
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,9 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.toColor
 import com.example.jetpackcomposebasics.ui.BasicsCodelabTheme
-import kotlin.math.exp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +52,7 @@ fun Greeting(name: String) {
         animationSpec = spring(
             dampingRatio =  Spring.DampingRatioMediumBouncy,
             stiffness = Spring.StiffnessLow
-        )
+        ),
     )
 
     // Surface 가 ui 홀더 같은 느낌?? 인것 같다. 여기 안에 여러가지를 담을 수 있는거지
@@ -72,6 +69,7 @@ fun Greeting(name: String) {
                     .weight(1f)
                     .padding(bottom = extraPadding.coerceAtLeast(0.dp))// 0 으로 잡아주는 이유는
                                         //  접을 때!, 접을 때  마이너스가 되면 앱이 중단된다...!
+                                // TODO 버그가 있따..! 두손가락으로 버튼막누르면 앱이 중단된다..
             ) {
                 Text(text = "Hello,")
                 Text(text = name)
