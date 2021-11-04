@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -40,11 +41,16 @@ class MainActivity : ComponentActivity() {
 fun Greeting(name: String) {
 
     // remember 를 붙여주어야 변경되었을 때 UI 변경이 이루어진다.
-    // savable 을 사용해서 리스트 내려갔다 올라와도 펼침 유지하게 하기  
-    val expanded = rememberSaveable { mutableStateOf(false) }
+    // savable 을 사용해서 리스트 내려갔다 올라와도 펼침 유지하게 하기 Fa
+//    val expanded = rememberSaveable { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
 
     // expanded 가 remember 이기 때문에 expanded 변경 시 extraPadding 도 변경된다.
-    val extraPadding = if (expanded.value) 48.dp else 0.dp
+    //val extraPadding = if (expanded.value) 48.dp else 0.dp
+
+    val extraPadding by animateDpAsState(
+        targetValue = if (expanded) 48.dp else 0.dp
+    )
 
     // Surface 가 ui 홀더 같은 느낌?? 인것 같다. 여기 안에 여러가지를 담을 수 있는거지
     Surface(
@@ -64,9 +70,9 @@ fun Greeting(name: String) {
                 Text(text = name)
             }
             OutlinedButton(
-                onClick = { expanded.value = !expanded.value }
+                onClick = { expanded = !expanded }
             ) {
-                Text(if (expanded.value) "Show less" else "Show more")
+                Text(if (expanded) "Show less" else "Show more")
             }
         }
     }
