@@ -40,6 +40,46 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+private fun MyApp(names: List<String> = listOf("World", "Compose")) {
+
+    // Savable 로 화면 회전, 테마변경 등 에도 값 유지하기! 그래서 온보딩 화면은 최초만 보이도록
+    var shouldShowOnboarding by rememberSaveable {
+        mutableStateOf(true) // 최초 앱 실행시에는 true 로 해서 온보딩 페이지를 보여줌
+    }
+
+    if (shouldShowOnboarding) {
+        OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+        // 이후 콜백에서 버튼 클릭시 이를 false 로 하면 이건 remember 니까 ui 업데이트가 자동으로 발생.
+    } else{
+        Greetings()
+    }
+}
+
+@Composable
+fun OnboardingScreen(onContinueClicked: () -> Unit) { // 클릭 리스너를 받음 (람다)
+    // TODO: THis state Should be hoisted
+    //var shouldShowOnboarding by remember { mutableStateOf(true) }
+
+    Surface {
+        // Column 으로 세로배치
+        Column(
+            modifier = Modifier.fillMaxSize(), // 화면 전체를 채우겠다
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Welcome to the Basics Codelab!")
+            Button(
+                modifier = Modifier.padding(vertical = 24.dp),
+                onClick = onContinueClicked //{ shouldShowOnboarding = false }
+            ) {
+                Text(text = "Continue")
+            }
+
+        }
+    }
+}
+
+@Composable
 fun Greeting(name: String) {
 
     // remember 를 붙여주어야 변경되었을 때 UI 변경이 이루어진다.
@@ -49,6 +89,7 @@ fun Greeting(name: String) {
 
     // expanded 가 remember 이기 때문에 expanded 변경 시 extraPadding 도 변경된다.
     //val extraPadding = if (expanded.value) 48.dp else 0.dp
+
 
     val extraPadding by animateDpAsState(
         targetValue = if (expanded) 48.dp else 0.dp,
@@ -88,23 +129,6 @@ fun Greeting(name: String) {
     }
 }
 
-
-@Composable
-private fun MyApp(names: List<String> = listOf("World", "Compose")) {
-
-    // Savable 로 화면 회전, 테마변경 등 에도 값 유지하기! 그래서 온보딩 화면은 최초만 보이도록
-    var shouldShowOnboarding by rememberSaveable {
-        mutableStateOf(true) // 최초 앱 실행시에는 true 로 해서 온보딩 페이지를 보여줌
-    }
-
-    if (shouldShowOnboarding) {
-        OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
-        // 이후 콜백에서 버튼 클릭시 이를 false 로 하면 이건 remember 니까 ui 업데이트가 자동으로 발생.
-    } else{
-        Greetings()
-    }
-}
-
 @Composable
 private fun Greetings(names: List<String> = List(1000) { "$it" }) {
     LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
@@ -112,30 +136,6 @@ private fun Greetings(names: List<String> = List(1000) { "$it" }) {
             Greeting(name = name)
         }
     } // 하지만 재활용은 하지 않음. 단지 컴포저블 될뿐. 더욱 저렴하다.
-}
-
-@Composable
-fun OnboardingScreen(onContinueClicked: () -> Unit) { // 클릭 리스너를 받음 (람다)
-    // TODO: THis state Should be hoisted
-    //var shouldShowOnboarding by remember { mutableStateOf(true) }
-
-    Surface {
-        // Column 으로 세로배치
-        Column(
-            modifier = Modifier.fillMaxSize(), // 화면 전체를 채우겠다
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Welcome to the Basics Codelab!")
-            Button(
-                modifier = Modifier.padding(vertical = 24.dp),
-                onClick = onContinueClicked //{ shouldShowOnboarding = false }
-            ) { 
-                Text(text = "Continue")
-            }
-            
-        }
-    }
 }
 
 @Preview(showBackground = true, name = "Text preview", widthDp = 320)
