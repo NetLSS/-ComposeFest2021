@@ -4,7 +4,9 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -49,7 +51,11 @@ fun Greeting(name: String) {
     //val extraPadding = if (expanded.value) 48.dp else 0.dp
 
     val extraPadding by animateDpAsState(
-        targetValue = if (expanded) 48.dp else 0.dp
+        targetValue = if (expanded) 48.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio =  Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
     )
 
     // Surface 가 ui 홀더 같은 느낌?? 인것 같다. 여기 안에 여러가지를 담을 수 있는거지
@@ -64,7 +70,8 @@ fun Greeting(name: String) {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom = extraPadding)
+                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))// 0 으로 잡아주는 이유는
+                                        //  접을 때!, 접을 때  마이너스가 되면 앱이 중단된다...!
             ) {
                 Text(text = "Hello,")
                 Text(text = name)
