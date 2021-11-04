@@ -1,5 +1,6 @@
 package com.example.jetpackcomposebasics
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -158,4 +159,18 @@ fun OnboardingPreview() {
 @Composable
 fun GreatingsPreview() {
     Greetings()
+}
+
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(showBackground = true, name = "Text preview 2", widthDp = 320)
+@Composable
+fun DefaultPreview2() {
+    BasicsCodelabTheme {
+        Greetings()
+    }
 }
