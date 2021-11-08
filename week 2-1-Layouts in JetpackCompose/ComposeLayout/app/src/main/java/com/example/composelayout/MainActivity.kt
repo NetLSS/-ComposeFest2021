@@ -34,6 +34,8 @@ class MainActivity : ComponentActivity() {
                 }*/
 
                 //PhotographerCard()
+
+                LayoutCodelab()
             }
         }
     }
@@ -41,7 +43,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun LayoutCodelab() {
-    Text(text = "Hi there!")
+    Scaffold { innerPadding ->
+        Text(text = "Hi there!", modifier = Modifier.padding(innerPadding))
+    }
 }
 
 @Preview
