@@ -55,17 +55,18 @@ fun LayoutCodelab() {
                     IconButton(onClick = { /* doSomething()*/}){
                         Icon(Icons.Filled.Favorite, contentDescription = null)
                     }
-                }
+                } // 관련 학습 https://codelabs.developers.google.com/codelabs/jetpack-compose-basics?authuser=1
             )
         }
     ) { innerPadding ->
-        BodyContent(Modifier.padding(innerPadding))
+        BodyContent(Modifier.padding(innerPadding)/*.padding(8.dp)*/) // 외부에서 전달해주는 방법
     }
 }
 
 @Composable
 fun BodyContent(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier
+        .padding(8.dp) /*내부에 직접 추가하는 방법*/) {
         Text(text = "Hi there!")
         Text(text = "Thanks for going through the Layouts codelab")
     }
