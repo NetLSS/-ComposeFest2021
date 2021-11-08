@@ -43,7 +43,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun LayoutCodelab() {
-    Scaffold { innerPadding ->
+    Scaffold(
+        topBar = {
+            Text(
+                text = "LayoutsCodelab",
+                style = MaterialTheme.typography.h3
+            )
+        }
+    ) { innerPadding ->
         BodyContent(Modifier.padding(innerPadding))
     }
 }
