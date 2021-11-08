@@ -26,9 +26,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeLayoutTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
+                /*Surface(color = MaterialTheme.colors.background) {
                     Greeting("Android")
-                }
+                }*/
+                PhotographerCard()
             }
         }
     }
@@ -51,8 +52,10 @@ fun DefaultPreview() {
 fun PhotographerCard(modifier: Modifier = Modifier) {
 
     Row(
-        modifier.padding(16.dp)
-            .clickable(onClick = { /* 클릭 무시*/})
+        modifier
+            .clickable(onClick = { /* 클릭 무시*/ }) // 전체영역 클릭
+            .padding(16.dp)
+            //.clickable(onClick = { /* 클릭 무시*/ }) // 패딩 제외 클릭
             .onGloballyPositioned {
                 android.util.Log.i("TEMP", "size ${it.size}")
             }
