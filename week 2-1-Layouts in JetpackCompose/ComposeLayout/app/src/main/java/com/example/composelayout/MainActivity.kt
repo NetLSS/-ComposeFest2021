@@ -45,9 +45,10 @@ class MainActivity : ComponentActivity() {
 fun LayoutCodelab() {
     Scaffold(
         topBar = {
-            Text(
-                text = "LayoutsCodelab",
-                style = MaterialTheme.typography.h3
+            TopAppBar(
+                title = {
+                    Text(text = "LayoutCodelab")
+                }
             )
         }
     ) { innerPadding ->
