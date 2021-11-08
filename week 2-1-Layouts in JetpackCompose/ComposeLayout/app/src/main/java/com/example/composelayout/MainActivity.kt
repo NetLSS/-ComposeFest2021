@@ -32,24 +32,26 @@ class MainActivity : ComponentActivity() {
                 /*Surface(color = MaterialTheme.colors.background) {
                     Greeting("Android")
                 }*/
-                PhotographerCard()
+
+                //PhotographerCard()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun LayoutCodelab() {
+    Text(text = "Hi there!")
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun DefaultPreview() {
+fun LayoutsCodelabPreview() {
     ComposeLayoutTheme {
-        Greeting("Android")
+        LayoutCodelab()
     }
 }
+
 
 @Composable
 fun PhotographerCard(modifier: Modifier = Modifier) {
