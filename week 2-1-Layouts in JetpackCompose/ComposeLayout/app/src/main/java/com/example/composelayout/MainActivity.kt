@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Savings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -53,7 +54,7 @@ fun LayoutCodelab() {
                 },
                 actions = {
                     IconButton(onClick = { /* doSomething()*/}){
-                        Icon(Icons.Filled.Favorite, contentDescription = null)
+                        Icon(Icons.Filled.Savings, contentDescription = null)
                     }
                 } // 관련 학습 https://codelabs.developers.google.com/codelabs/jetpack-compose-basics?authuser=1
             )
@@ -62,6 +63,20 @@ fun LayoutCodelab() {
         BodyContent(Modifier.padding(innerPadding)/*.padding(8.dp)*/) // 외부에서 전달해주는 방법
     }
 }
+
+/*
+more icons
+https://fonts.google.com/icons?selected=Material+Icons
+
+dependencies {
+  ...
+  implementation "androidx.compose.material:material-icons-extended:$compose_version"
+}
+
+more works
+
+The same can be done for other Material components such as BottomNavigation or BottomDrawer. As an exercise, we invite you to try to fill the Scaffold slots with those APIs in the same way we've done until now.
+ */
 
 @Composable
 fun BodyContent(modifier: Modifier = Modifier) {
