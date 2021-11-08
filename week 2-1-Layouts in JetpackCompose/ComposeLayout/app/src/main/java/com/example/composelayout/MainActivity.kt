@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,6 +53,9 @@ fun PhotographerCard(modifier: Modifier = Modifier) {
     Row(
         modifier.padding(16.dp)
             .clickable(onClick = { /* 클릭 무시*/})
+            .onGloballyPositioned {
+                android.util.Log.i("TEMP", "size ${it.size}")
+            }
     ) {
         Surface(
             modifier = Modifier.size(50.dp),
