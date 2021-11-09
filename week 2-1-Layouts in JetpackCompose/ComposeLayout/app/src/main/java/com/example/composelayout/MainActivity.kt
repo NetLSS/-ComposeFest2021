@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Savings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.example.composelayout.ui.theme.ComposeLayoutTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +47,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun SimpleList() {
     // We save the scrolling position with this state that can also
@@ -62,13 +65,41 @@ fun SimpleList() {
 fun LazyList() {
     // We save the scrolling position with this state that can also
     // be used to programmatically scroll the list
-    val scrollState = rememberLazyListState()
+    //val scrollState = rememberLazyListState()
 
-    LazyColumn(state = scrollState) {
-        items(100) {
-            ImageListItem(it)
+    val listSize = 10000
+    // We save the scrolling position with this state
+    val scrollState = rememberLazyListState()
+    // We save the coroutine scope where our animated scroll will be executed
+    val coroutineScope = rememberCoroutineScope()
+
+    Column {
+        Row {
+            Button(onClick = {
+                coroutineScope.launch {
+                    // 0 is the first item index
+                    scrollState.animateScrollToItem(0)
+                }
+            }) {
+                Text("Scroll to the top")
+            }
+
+            Button(onClick = {
+                coroutineScope.launch {
+                    // listSize - 1 is the last index of the list
+                    scrollState.animateScrollToItem(listSize - 1)
+                }
+            }) {
+                Text("Scroll to the end")
+            }
+        }
+        LazyColumn(state = scrollState) {
+            items(listSize) {
+                ImageListItem(it)
+            }
         }
     }
+
 
 }
 
@@ -88,6 +119,14 @@ fun ImageListItem(index: Int) {
     }
 }
 
+// https://developer.android.com/jetpack/compose/lifecycle?authuser=1
+/*
+val listSize = 100
+// We save the scrolling position with this state
+val scrollState = rememberLazyListState()
+// We save the coroutine scope where our animated scroll will be executed
+val coroutineScope = rememberCoroutineScope()
+*/
 @Composable
 fun LayoutCodelab() {
     Scaffold(
@@ -97,7 +136,7 @@ fun LayoutCodelab() {
                     Text(text = "LayoutCodelab")
                 },
                 actions = {
-                    IconButton(onClick = { /* doSomething()*/}){
+                    IconButton(onClick = { /* doSomething()*/ }) {
                         Icon(Icons.Filled.Savings, contentDescription = null)
                     }
                 } // 관련 학습 https://codelabs.developers.google.com/codelabs/jetpack-compose-basics?authuser=1
@@ -124,8 +163,10 @@ The same can be done for other Material components such as BottomNavigation or B
 
 @Composable
 fun BodyContent(modifier: Modifier = Modifier) {
-    Column(modifier = modifier
-        .padding(8.dp) /*내부에 직접 추가하는 방법*/) {
+    Column(
+        modifier = modifier
+            .padding(8.dp) /*내부에 직접 추가하는 방법*/
+    ) {
         Text(text = "Hi there!")
         Text(text = "Thanks for going through the Layouts codelab")
     }
