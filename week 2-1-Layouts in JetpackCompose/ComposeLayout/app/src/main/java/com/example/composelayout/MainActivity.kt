@@ -38,8 +38,19 @@ class MainActivity : ComponentActivity() {
 
                 //PhotographerCard()
 
-                LayoutCodelab()
+                //LayoutCodelab()
+
+                SimpleList()
             }
+        }
+    }
+}
+
+@Composable
+fun SimpleList() {
+    Column {
+        repeat(100) {
+            Text("Item #$it")
         }
     }
 }
