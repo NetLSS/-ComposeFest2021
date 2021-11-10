@@ -65,8 +65,10 @@ fun Modifier.firstBaselineToTop(
         // 패딩이 있는 컴포저블 높이 - 첫 번째 기준선
         val placeableY = firstBaselineToTop.roundToPx() - firstBaseline
         val height = placeable.height + placeableY
+        // layout 이 불릴때 까지 경고 표시
         layout(placeable.width, height) {
-
+            // 컴포저블이 배치되는 위치
+            placeable.placeRelative(0, placeableY)
         }
     }
 )
