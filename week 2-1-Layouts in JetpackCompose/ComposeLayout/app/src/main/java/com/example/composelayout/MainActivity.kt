@@ -19,9 +19,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.example.composelayout.ui.theme.ComposeLayoutTheme
@@ -47,6 +49,14 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// you can only measure your children once.
+fun Modifier.firstBaselineToTop(
+    firstBaselineToTop : Dp
+) = this.then(
+    layout { measurable, constraints ->
+
+    }
+)
 
 @Composable
 fun SimpleList() {
