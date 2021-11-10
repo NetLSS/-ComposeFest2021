@@ -73,6 +73,28 @@ fun Modifier.firstBaselineToTop(
     }
 )
 
+@Preview
+@Composable
+fun TextWithPaddingToBaselinePreview() {
+    ComposeLayoutTheme {
+        // 텍스트의 아랫 라인(베이스라인) 기준으로 24.dp
+        Text("Hi there!", Modifier.firstBaselineToTop(32.dp))
+    }
+}
+
+@Preview
+@Composable
+fun TextWithNormalPaddingPreview() {
+    ComposeLayoutTheme {
+        // 일반 적인 24.dp (텍스트 박스 상단 라인 기준 24.dp 패딩)
+        Text("Hi there!", Modifier.padding(top = 32.dp))
+    }
+}
+
+/**
+ * ================================================================================================
+ */
+
 @Composable
 fun SimpleList() {
     // We save the scrolling position with this state that can also
@@ -152,6 +174,10 @@ val scrollState = rememberLazyListState()
 // We save the coroutine scope where our animated scroll will be executed
 val coroutineScope = rememberCoroutineScope()
 */
+
+/**
+* ================================================================================================
+ */
 @Composable
 fun LayoutCodelab() {
     Scaffold(
@@ -205,6 +231,9 @@ fun LayoutsCodelabPreview() {
     }
 }
 
+/**
+ * ================================================================================================
+ */
 
 @Composable
 fun PhotographerCard(modifier: Modifier = Modifier) {
