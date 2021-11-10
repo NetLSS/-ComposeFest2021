@@ -19,6 +19,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
@@ -54,7 +56,18 @@ fun Modifier.firstBaselineToTop(
     firstBaselineToTop : Dp
 ) = this.then(
     layout { measurable, constraints ->
+        val placeable = measurable.measure(constraints) // 를 불러서 Composable 을 measure(constraints)
 
+        // 컴포저블에 첫 번째 기준선이 있는지 확인
+        check(placeable[FirstBaseline] != AlignmentLine.Unspecified)
+        val firstBaseline = placeable[FirstBaseline]
+
+        // 패딩이 있는 컴포저블 높이 - 첫 번째 기준선
+        val placeableY = firstBaselineToTop.roundToPx() - firstBaseline
+        val height = placeable.height + placeableY
+        layout(placeable.width, height) {
+
+        }
     }
 )
 
