@@ -87,11 +87,22 @@ fun MyOwnColumn(
     ) { measurables, constraints ->
         // 여기에 제약 조건 논리가 주어진 자식을 측정하고 배치하십시오.
 
+        // region 하위 항목 측정 - 이전 코드 스니펫의 코드
         // 자식 뷰를 더 이상 제한하지 않고 주어진 제약 조건으로 측정합니다.
         // 측정된 자식 목록
         val placeables = measurables.map { measurable ->
-            // 각 자식들 측정
+            // 각 자식들 측
             measurable.measure(constraints)
+        }
+        // endregion
+
+        /*
+        layout(width, height) 메서드를 호출하여 자체 열의 크기를 지정합니다. 이 메서드는 자식 배치에 사용되는 람다도 제공합니다.
+         */
+
+        // 레이아웃의 크기를 최대한 크게 설정
+        layout(constraints.maxWidth, constraints.maxHeight) {
+            // 자식 위치시키기
         }
     }
 }
