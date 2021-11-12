@@ -2,4 +2,4 @@
 
 참고 이미지
 
-![Imgur](https://imgur.com/1Tu9m0q)
+![Imgur](https://i.imgur.com/1Tu9m0q.png)
