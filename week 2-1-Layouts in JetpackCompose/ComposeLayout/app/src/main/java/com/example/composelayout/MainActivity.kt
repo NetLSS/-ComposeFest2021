@@ -63,6 +63,12 @@ fun Modifier.firstBaselineToTop(
         val firstBaseline = placeable[FirstBaseline]
 
         // 패딩이 있는 컴포저블 높이 - 첫 번째 기준선
+        /**
+         * 현 예시 코드로 봤을 때
+         * 1. [firstBaselineToTop] 예시 Text에서 텍스트 아랫라인 ~ 레이아웃 최대 top 까지
+         * 2. [firstBaseline] Text 자체 크기 (텍스트 박스 자체 크기 높이라인) (텍박 아랫라인 부터 윗라인)
+         * 3. [placeableY] 텍스트박스 윗라인 ~ 레이아웃 최대 top 라인 까지
+         */
         val placeableY = firstBaselineToTop.roundToPx() - firstBaseline
         val height = placeable.height + placeableY
         // layout 이 불릴때 까지 경고 표시
