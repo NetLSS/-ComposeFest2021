@@ -96,13 +96,22 @@ fun MyOwnColumn(
         }
         // endregion
 
-        /*
-        layout(width, height) 메서드를 호출하여 자체 열의 크기를 지정합니다. 이 메서드는 자식 배치에 사용되는 람다도 제공합니다.
-         */
+        // 우리가 자식들을 배치한 y 좌표를 추적
+        var yPosition = 0
+
+        //layout(width, height) 메서드를 호출하여 자체 열의 크기를 지정합니다. 이 메서드는 자식 배치에 사용되는 람다도 제공합니다.
+
 
         // 레이아웃의 크기를 최대한 크게 설정
         layout(constraints.maxWidth, constraints.maxHeight) {
             // 자식 위치시키기
+            placeables.forEach { placeable ->
+                // 화면에서 항목 위치 지정
+                placeable.placeRelative(x = 0, y = yPosition)
+
+                // 여태까지 배치된 y 좌표를 기록합니다.
+                yPosition += placeable.height
+            }
         }
     }
 }
