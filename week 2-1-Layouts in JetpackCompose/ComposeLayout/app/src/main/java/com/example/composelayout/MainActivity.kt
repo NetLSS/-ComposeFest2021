@@ -134,6 +134,21 @@ fun BodyContent2(modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+fun StaggeredGrid(
+    modifier: Modifier = Modifier,
+    rows: Int = 3,
+    content: @Composable () -> Unit
+) {
+    Layout(
+        content = content,
+        modifier = modifier
+    ){ measurables, constraints ->
+        // 여기에 제약 조건 논리가 주어진 자식을 측정하고 배치하십시오.
+    }
+
+}
+
 /**
  * ================================================================================================
  */
