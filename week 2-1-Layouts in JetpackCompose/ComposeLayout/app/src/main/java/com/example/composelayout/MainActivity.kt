@@ -19,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,7 +43,9 @@ class MainActivity : ComponentActivity() {
 
                 //LayoutCodelab()
 
-                LazyList()
+                //LazyList()
+
+                BodyContent2()
             }
         }
     }
@@ -112,6 +115,21 @@ fun MyOwnColumn(
                 // 여태까지 배치된 y 좌표를 기록합니다.
                 yPosition += placeable.height
             }
+        }
+    }
+}
+
+// 그럼 실제로 사용해보자!
+@Composable
+fun BodyContent2(modifier: Modifier = Modifier) {
+    MyOwnColumn(modifier.padding(8.dp)) {
+        Text("MyOwnColumn")
+        Text("아이템들 배치")
+        Text("수직으로.")
+        Text("이걸 한다고?ㅋㅋ")
+        MyOwnColumn(modifier.padding(20.dp)) {
+            Text("이게 되나?")
+            Text("이게 된다고?")
         }
     }
 }
