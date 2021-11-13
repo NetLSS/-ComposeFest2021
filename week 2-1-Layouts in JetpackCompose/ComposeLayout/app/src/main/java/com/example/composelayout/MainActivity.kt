@@ -177,10 +177,25 @@ fun StaggeredGrid(
             .coerceIn(constraints.minHeight.rangeTo(constraints.maxHeight))
 
         // 이전 행의 누적 높이를 기준으로 각 행의 Y 구하기
-        // 그려질 시작 Y 구하는 거 
+        // 그려질 시작 Y 구하는 거
         val rowY = IntArray(rows) { 0 }
         for (i in 1 until rows) {
             rowY[i] = rowY[i-1] + rowHeights[i-1]
+        }
+
+        // 부모 레이아웃의 크기 설정
+        layout(width, height) {
+            // 행당 우리가 배치한 x 코드
+            val rowX = IntArray(rows) { 0 }
+
+            placeables.forEachIndexed { index, placeable ->
+                val row = index % rows
+                placeable.placeRelative(
+                    x = rowX[row],
+                    y = rowY[row]
+                )
+                rowX[row] += placeable.width
+            }
         }
         // endregion
     }
