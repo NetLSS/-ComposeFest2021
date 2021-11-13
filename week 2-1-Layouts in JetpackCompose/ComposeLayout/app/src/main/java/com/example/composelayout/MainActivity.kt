@@ -160,13 +160,28 @@ fun StaggeredGrid(
 
             // 각 행의 너비와 최대 높이를 추적합니다.
             val row = index % rows
-            rowHeights[row] += placeable.width
+            rowWidths[row] += placeable.width
             rowHeights[row] = Math.max(rowHeights[row], placeable.height)
 
             placeable
         }
 
+        // 그리드의 너비는 가장 넓은 행입니다.
+        val width = rowWidths.maxOrNull()
+            ?.coerceIn(constraints.minWidth.rangeTo(constraints.maxWidth))
+            ?: constraints.minWidth
 
+        // 그리드의 높이는 각 행의 가장 높은 요소의 합입니다.
+        // 높이 제약 조건으로 강제 변환
+        val height = rowHeights.sumOf { it }
+            .coerceIn(constraints.minHeight.rangeTo(constraints.maxHeight))
+
+        // 이전 행의 누적 높이를 기준으로 각 행의 Y 구하기
+        // 그려질 시작 Y 구하는 거 
+        val rowY = IntArray(rows) { 0 }
+        for (i in 1 until rows) {
+            rowY[i] = rowY[i-1] + rowHeights[i-1]
+        }
         // endregion
     }
 
