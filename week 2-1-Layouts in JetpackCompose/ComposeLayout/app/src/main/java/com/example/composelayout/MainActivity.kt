@@ -144,7 +144,30 @@ fun StaggeredGrid(
         content = content,
         modifier = modifier
     ){ measurables, constraints ->
-        // 여기에 제약 조건 논리가 주어진 자식을 측정하고 배치하십시오.
+        // region 여기에 제약 조건 논리가 주어진 자식을 측정하고 배치하십시오.
+
+        // 각 행의 너비 추적
+        val rowWidths = IntArray(rows) { 0}
+
+        // 각 행의 최대 높이를 추적하십시오.
+        val rowHeights = IntArray(rows) { 0 }
+
+        // 자식 보기를 더 이상 제한하지 말고 주어진 제약 조건으로 측정하십시오.
+        // 측정된 자식 목록
+        val placeables = measurables.mapIndexed { index, measurable ->
+            // 각 자식 측정
+            val placeable = measurable.measure(constraints)
+
+            // 각 행의 너비와 최대 높이를 추적합니다.
+            val row = index % rows
+            rowHeights[row] += placeable.width
+            rowHeights[row] = Math.max(rowHeights[row], placeable.height)
+
+            placeable
+        }
+
+
+        // endregion
     }
 
 }
