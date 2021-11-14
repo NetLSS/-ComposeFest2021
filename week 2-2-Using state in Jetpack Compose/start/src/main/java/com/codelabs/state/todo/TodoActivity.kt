@@ -62,8 +62,8 @@ private fun TodoActivityScreen(todoViewModel: TodoViewModel) {
 
 
      */
-    val items: List<TodoItem> by todoViewModel.todoItems.observeAsState(listOf())
-    TodoScreen(items = items,
+    //val items: List<TodoItem> by todoViewModel.todoItems.observeAsState(listOf())
+    TodoScreen(items = todoViewModel.todoItems,
         onAddItem = todoViewModel::addItem, //{ todoViewModel.addItem(it) },
         onRemoveItem = { todoViewModel.removeItem(it) })
 }
