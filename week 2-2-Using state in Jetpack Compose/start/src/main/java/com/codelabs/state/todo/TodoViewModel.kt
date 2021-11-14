@@ -16,6 +16,7 @@
 
 package com.codelabs.state.todo
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,16 +27,39 @@ import androidx.lifecycle.ViewModel
 
 class TodoViewModel : ViewModel() {
 
-    private var _todoItems = MutableLiveData(listOf<TodoItem>())
-    val todoItems: LiveData<List<TodoItem>> = _todoItems
+    // LiveData를 제거하고 mutableStateListOf로 바꿉니다.
+    //private var _todoItems = MutableLiveData(listOf<TodoItem>())
+    //val todoItems: LiveData<List<TodoItem>> = _todoItems
 
+//    fun addItem(item: TodoItem) {
+//        _todoItems.value = _todoItems.value!! + listOf(item)
+//    }
+//
+//    fun removeItem(item: TodoItem) {
+//        _todoItems.value = _todoItems.value!!.toMutableList().also {
+//            it.remove(item)
+//        }
+//    }
+
+    /**
+     * mutableStateListOf 및 MutableState로 수행된 작업은 Compose를 위한 것입니다.
+     *
+     * 이 ViewModel이 View 시스템에서도 사용되었다면 LiveData를 계속 사용하는 것이 좋습니다.
+     */
+    // state: todoItems
+    var todoItems = mutableStateListOf<TodoItem>()
+        private set // private set을 지정함으로써 이 상태 객체에 대한 쓰기를 ViewModel 내부에서만 볼 수 있는 private setter로 제한하고 있습니다.
+
+    // event: addItem
     fun addItem(item: TodoItem) {
-        _todoItems.value = _todoItems.value!! + listOf(item)
+        todoItems.add(item)
     }
 
+    // event: removeItem
     fun removeItem(item: TodoItem) {
-        _todoItems.value = _todoItems.value!!.toMutableList().also {
-            it.remove(item)
-        }
+        todoItems.remove(item)
     }
+
+
+
 }
