@@ -185,7 +185,7 @@ fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: M
      * 이제 TodoItemInput에 상태를 추가하고 TodoInputTextField에 전달합니다.
 
      */
-    TodoInputText(text, onTextChange, modifier)
+    TodoInputText(text, onTextChange, modifier, onImeAction)
 }
 
 @Composable
@@ -213,6 +213,12 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
                     .weight(1f)
                     .padding(end = 8.dp),
                 onImeAction = summit // 엔터키 액션 추가 // 제출 콜백을 TodoInputText에 전달
+            /*
+            키보드 작업을 처리하기 위해 TextField는 두 가지 매개변수를 제공합니다.
+            keyboardOptions - 완료 IME 작업 표시를 활성화하는 데 사용됩니다.
+            keyboardActions - 트리거된 특정 IME 작업에 대한 응답으로 트리거될 작업을 지정하는 데 사용됨 - 이 경우 완료를 누르면 제출이 호출되고 키보드가 숨겨지기를 원합니다.
+
+             */
             )
             TodoEditButton(
                 onClick = summit, // 제출 콜백을 TodoInputText에 전달
