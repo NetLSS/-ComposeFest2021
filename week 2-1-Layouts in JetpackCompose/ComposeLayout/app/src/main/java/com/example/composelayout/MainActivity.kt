@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.rememberImagePainter
 import com.example.composelayout.ui.theme.ComposeLayoutTheme
@@ -68,7 +69,65 @@ class MainActivity : ComponentActivity() {
  */
 // Constraint Layout
 
+// Decoupled API (분리된 API)
+@Composable
+fun DecoupledConstraintLayout() {
+    BoxWithConstraints{
+        val constraints = if (maxWidth < maxHeight) {
+            decoupledConstraints(margin = 16.dp ) // 세로 제한
+        } else {
+            decoupledConstraints(margin = 32.dp) // 랜드스케이프 제약
+        }
+
+        ConstraintLayout(constraints) {
+            Button(onClick = { /*TODO*/ },
+                    modifier = Modifier.layoutId("button")
+                ) {
+                Text("Button")
+            }
+
+            Text("Text", Modifier.layoutId("text"))
+        }
+    }
+}
+
+private fun decoupledConstraints(margin: Dp) : ConstraintSet {
+    return ConstraintSet {
+        val button = createRefFor("button")
+        val text = createRefFor("text")
+
+        constrain(button) {
+            top.linkTo(parent.top, margin = margin)
+        }
+        constrain(text) {
+            top.linkTo(button.bottom, margin)
+        }
+    }
+}
+
+@Preview
+@Composable
+fun DecoupledConstraintLayoutPreview() {
+    ComposeLayoutTheme {
+        DecoupledConstraintLayout()
+    }
+}
+
 // ex3
+/*
+preferredWrapContent - 레이아웃은 해당 차원의 제약 조건이 적용되는 랩 콘텐츠입니다.
+
+wrapContent - 제약 조건에서 허용하지 않는 경우에도 레이아웃은 랩 콘텐츠입니다.
+
+fillToConstraints - 해당 차원의 제약 조건에 의해 정의된 공간을 채우도록 레이아웃이 확장됩니다.
+
+preferredValue - 레이아웃은 해당 차원의 제약 조건에 따라 고정된 dp 값입니다.
+
+value - 레이아웃은 해당 차원의 제약 조건에 관계없이 고정 dp 값입니다.
+
+also
+width = Dimension.preferredWrapContent.atLeast(100.dp)
+ */
 @Composable
 fun LargeConstraintLayout() {
     ConstraintLayout {
