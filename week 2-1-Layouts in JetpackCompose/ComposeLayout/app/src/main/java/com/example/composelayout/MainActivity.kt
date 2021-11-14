@@ -86,24 +86,24 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TwoTexts(modifier: Modifier = Modifier, text1: String, text2: String) {
     /**
-     height(IntrinsicSize.Min) 은 최소 고유 높이만큼 키가 커지도록 강제되는 자식 크기를 조정합니다.
-     재귀적이므로 Row와 그 자식 minIntrinsicHeight를 쿼리합니다.
+    height(IntrinsicSize.Min) 은 최소 고유 높이만큼 키가 커지도록 강제되는 자식 크기를 조정합니다.
+    재귀적이므로 Row와 그 자식 minIntrinsicHeight를 쿼리합니다.
 
-     행의 minIntrinsicHeight는 자식의 최대 minIntrinsicHeight가 됩니다.
+    행의 minIntrinsicHeight는 자식의 최대 minIntrinsicHeight가 됩니다.
 
-     Divider의 minIntrinsicHeight는 제약 조건이 주어지지 않으면 공간을 차지하지 않으므로 0입니다.
+    Divider의 minIntrinsicHeight는 제약 조건이 주어지지 않으면 공간을 차지하지 않으므로 0입니다.
 
-     텍스트의 minIntrinsicHeight는 특정 너비가 지정된 텍스트의 것입니다. 그러므로
-     행의 높이 제한은 텍스트의 최대 minIntrinsicHeight가 됩니다.
+    텍스트의 minIntrinsicHeight는 특정 너비가 지정된 텍스트의 것입니다. 그러므로
+    행의 높이 제한은 텍스트의 최대 minIntrinsicHeight가 됩니다.
 
-     그런 다음 Divider는 Row에서 지정한 높이 제약 조건으로 높이를 확장합니다.
+    그런 다음 Divider는 Row에서 지정한 높이 제약 조건으로 높이를 확장합니다.
 
-     사용자 지정 레이아웃을 생성할 때마다 MeasurePolicy 인터페이스의
-     (min|max)Intrinsic(Width|Height)을 사용하여 내장 함수를 계산하는 방법을 수정할 수 있습니다.
-     그러나 대부분의 경우 기본값으로 충분해야 합니다.
+    사용자 지정 레이아웃을 생성할 때마다 MeasurePolicy 인터페이스의
+    (min|max)Intrinsic(Width|Height)을 사용하여 내장 함수를 계산하는 방법을 수정할 수 있습니다.
+    그러나 대부분의 경우 기본값으로 충분해야 합니다.
 
-     또한 좋은 기본값을 가지고 있는 Modifier 인터페이스의 Density.
-     (min|max)Intrinsic(Width|Height)Of 메서드를 재정의하는 modifier로 내장 함수를 수정할 수 있습니다.
+    또한 좋은 기본값을 가지고 있는 Modifier 인터페이스의 Density.
+    (min|max)Intrinsic(Width|Height)Of 메서드를 재정의하는 modifier로 내장 함수를 수정할 수 있습니다.
      */
     Row(modifier.height(IntrinsicSize.Min)) {
         Text(
@@ -114,7 +114,12 @@ fun TwoTexts(modifier: Modifier = Modifier, text1: String, text2: String) {
             text = text1
         )
 
-        Divider(color = androidx.compose.ui.graphics.Color.Blue, modifier = Modifier.fillMaxHeight().width(1.dp))
+        Divider(
+            color = androidx.compose.ui.graphics.Color.Blue,
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(1.dp)
+        )
 
         Text(
             modifier = Modifier
@@ -144,17 +149,18 @@ fun TwoTextsPreview() {
 // Decoupled API (분리된 API)
 @Composable
 fun DecoupledConstraintLayout() {
-    BoxWithConstraints{
+    BoxWithConstraints {
         val constraints = if (maxWidth < maxHeight) {
-            decoupledConstraints(margin = 16.dp ) // 세로 제한
+            decoupledConstraints(margin = 16.dp) // 세로 제한
         } else {
             decoupledConstraints(margin = 32.dp) // 랜드스케이프 제약
         }
 
         ConstraintLayout(constraints) {
-            Button(onClick = { /*TODO*/ },
-                    modifier = Modifier.layoutId("button")
-                ) {
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier.layoutId("button")
+            ) {
                 Text("Button")
             }
 
@@ -163,7 +169,7 @@ fun DecoupledConstraintLayout() {
     }
 }
 
-private fun decoupledConstraints(margin: Dp) : ConstraintSet {
+private fun decoupledConstraints(margin: Dp): ConstraintSet {
     return ConstraintSet {
         val button = createRefFor("button")
         val text = createRefFor("text")
@@ -266,18 +272,18 @@ fun ConstraintLayoutContent() {
         val (button, text) = createRefs()
 
         Button(onClick = { /*TODO*/ },
-                // 버튼 컴포저블에 참조 "버튼" 할당
-                // ConstraintLayout의 맨 위에 제한합니다.
-                modifier = Modifier.constrainAs(button) {
-                    top.linkTo(parent.top, margin = 16.dp)
-                }
-            ) {
+            // 버튼 컴포저블에 참조 "버튼" 할당
+            // ConstraintLayout의 맨 위에 제한합니다.
+            modifier = Modifier.constrainAs(button) {
+                top.linkTo(parent.top, margin = 16.dp)
+            }
+        ) {
             Text("Button")
         }
 
         // 텍스트 컴포저블에 참조 "텍스트" 할당
         // 그리고 그것을 Button 컴포저블의 맨 아래로 제한합니다.
-        Text("Text", Modifier.constrainAs(text){
+        Text("Text", Modifier.constrainAs(text) {
             top.linkTo(button.bottom, margin = 16.dp)
             // ConstraintLayout에서 텍스트를 가로로 가운데 정렬합니다.
             centerHorizontallyTo(parent)
@@ -289,7 +295,7 @@ fun ConstraintLayoutContent() {
 @Preview
 @Composable
 fun ConstraintLayoutContentPreview() {
-    ComposeLayoutTheme{
+    ComposeLayoutTheme {
         //ConstraintLayoutContent()
         ConstraintLayoutContent2()
     }
@@ -307,12 +313,14 @@ val topics = listOf(
 
 @Composable
 fun BodyContent3(modifier: Modifier = Modifier) {
-    Row(modifier = modifier
-        .background(color = androidx.compose.ui.graphics.Color.LightGray)
-        .padding(16.dp) // 순서 중요. (스크롤 가능한 사이즈 232x232 됨)
-        .size(200.dp)
-        //.padding(16.dp) // 순서 중요. (스크롤 가능한 사이즈 200x200 됨) (200-16-16)
-        .horizontalScroll(rememberScrollState())){
+    Row(
+        modifier = modifier
+            .background(color = androidx.compose.ui.graphics.Color.LightGray)
+            .padding(16.dp) // 순서 중요. (스크롤 가능한 사이즈 232x232 됨)
+            .size(200.dp)
+            //.padding(16.dp) // 순서 중요. (스크롤 가능한 사이즈 200x200 됨) (200-16-16)
+            .horizontalScroll(rememberScrollState())
+    ) {
         StaggeredGrid(modifier = modifier, rows = 5) {
             for (topic in topics) {
                 Chip(modifier = Modifier.padding(8.dp), text = topic)
@@ -333,7 +341,10 @@ fun LayoutsCodelabPreview2() {
 fun Chip(modifier: Modifier = Modifier, text: String) {
     Card(
         modifier = modifier,
-        border = BorderStroke(color = androidx.compose.ui.graphics.Color.Black, width = Dp.Hairline),
+        border = BorderStroke(
+            color = androidx.compose.ui.graphics.Color.Black,
+            width = Dp.Hairline
+        ),
         shape = RoundedCornerShape(8.dp)
     ) {
         Row(
@@ -369,11 +380,11 @@ fun StaggeredGrid(
     Layout(
         content = content,
         modifier = modifier
-    ){ measurables, constraints ->
+    ) { measurables, constraints ->
         // region 여기에 제약 조건 논리가 주어진 자식을 측정하고 배치하십시오.
 
         // 각 행의 너비 추적
-        val rowWidths = IntArray(rows) { 0}
+        val rowWidths = IntArray(rows) { 0 }
 
         // 각 행의 최대 높이를 추적하십시오.
         val rowHeights = IntArray(rows) { 0 }
@@ -406,7 +417,7 @@ fun StaggeredGrid(
         // 그려질 시작 Y 구하는 거
         val rowY = IntArray(rows) { 0 }
         for (i in 1 until rows) {
-            rowY[i] = rowY[i-1] + rowHeights[i-1]
+            rowY[i] = rowY[i - 1] + rowHeights[i - 1]
         }
 
         // 부모 레이아웃의 크기 설정
@@ -435,7 +446,7 @@ fun StaggeredGrid(
 
 // you can only measure your children once.
 fun Modifier.firstBaselineToTop(
-    firstBaselineToTop : Dp
+    firstBaselineToTop: Dp
 ) = this.then(
     layout { measurable, constraints ->
         val placeable = measurable.measure(constraints) // 를 불러서 Composable 을 measure(constraints)
@@ -624,7 +635,7 @@ val coroutineScope = rememberCoroutineScope()
 */
 
 /**
-* ================================================================================================
+ * ================================================================================================
  */
 @Composable
 fun LayoutCodelab() {
