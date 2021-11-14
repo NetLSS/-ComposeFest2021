@@ -84,6 +84,7 @@ fun ConstraintLayoutContent2() {
             centerAround(button1.end)
         })
 
+        // constrainAs 안에서는 만들 수 없음. 밖에서 만들자 
         val barrier = createEndBarrier(button1, text) // button1 과 text 를 감싼 End(제약)
         Button(onClick = { /*TODO*/ },
             modifier = Modifier.constrainAs(button2) {
