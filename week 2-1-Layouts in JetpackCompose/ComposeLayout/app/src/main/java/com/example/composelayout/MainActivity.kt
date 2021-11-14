@@ -51,6 +51,80 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+@Composable
+fun StaggeredGrid(
+    modifier: Modifier = Modifier,
+    rows: Int = 3,
+    content: @Composable () -> Unit
+) {
+    Layout(
+        content = content,
+        modifier = modifier
+    ){ measurables, constraints ->
+        // region 여기에 제약 조건 논리가 주어진 자식을 측정하고 배치하십시오.
+
+        // 각 행의 너비 추적
+        val rowWidths = IntArray(rows) { 0}
+
+        // 각 행의 최대 높이를 추적하십시오.
+        val rowHeights = IntArray(rows) { 0 }
+
+        // 자식 보기를 더 이상 제한하지 말고 주어진 제약 조건으로 측정하십시오.
+        // 측정된 자식 목록
+        val placeables = measurables.mapIndexed { index, measurable ->
+            // 각 자식 측정
+            val placeable = measurable.measure(constraints)
+
+            // 각 행의 너비와 최대 높이를 추적합니다.
+            val row = index % rows
+            rowWidths[row] += placeable.width
+            rowHeights[row] = Math.max(rowHeights[row], placeable.height)
+
+            placeable
+        }
+
+        // 그리드의 너비는 가장 넓은 행입니다.
+        val width = rowWidths.maxOrNull()
+            ?.coerceIn(constraints.minWidth.rangeTo(constraints.maxWidth))
+            ?: constraints.minWidth
+
+        // 그리드의 높이는 각 행의 가장 높은 요소의 합입니다.
+        // 높이 제약 조건으로 강제 변환
+        val height = rowHeights.sumOf { it }
+            .coerceIn(constraints.minHeight.rangeTo(constraints.maxHeight))
+
+        // 이전 행의 누적 높이를 기준으로 각 행의 Y 구하기
+        // 그려질 시작 Y 구하는 거
+        val rowY = IntArray(rows) { 0 }
+        for (i in 1 until rows) {
+            rowY[i] = rowY[i-1] + rowHeights[i-1]
+        }
+
+        // 부모 레이아웃의 크기 설정
+        layout(width, height) {
+            // 행당 우리가 배치한 x 코드
+            val rowX = IntArray(rows) { 0 }
+
+            placeables.forEachIndexed { index, placeable ->
+                val row = index % rows
+                placeable.placeRelative(
+                    x = rowX[row],
+                    y = rowY[row]
+                )
+                rowX[row] += placeable.width
+            }
+        }
+        // endregion
+    }
+
+}
+
+/**
+ * ================================================================================================
+ */
+
+
 // you can only measure your children once.
 fun Modifier.firstBaselineToTop(
     firstBaselineToTop : Dp
@@ -134,73 +208,6 @@ fun BodyContent2(modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun StaggeredGrid(
-    modifier: Modifier = Modifier,
-    rows: Int = 3,
-    content: @Composable () -> Unit
-) {
-    Layout(
-        content = content,
-        modifier = modifier
-    ){ measurables, constraints ->
-        // region 여기에 제약 조건 논리가 주어진 자식을 측정하고 배치하십시오.
-
-        // 각 행의 너비 추적
-        val rowWidths = IntArray(rows) { 0}
-
-        // 각 행의 최대 높이를 추적하십시오.
-        val rowHeights = IntArray(rows) { 0 }
-
-        // 자식 보기를 더 이상 제한하지 말고 주어진 제약 조건으로 측정하십시오.
-        // 측정된 자식 목록
-        val placeables = measurables.mapIndexed { index, measurable ->
-            // 각 자식 측정
-            val placeable = measurable.measure(constraints)
-
-            // 각 행의 너비와 최대 높이를 추적합니다.
-            val row = index % rows
-            rowWidths[row] += placeable.width
-            rowHeights[row] = Math.max(rowHeights[row], placeable.height)
-
-            placeable
-        }
-
-        // 그리드의 너비는 가장 넓은 행입니다.
-        val width = rowWidths.maxOrNull()
-            ?.coerceIn(constraints.minWidth.rangeTo(constraints.maxWidth))
-            ?: constraints.minWidth
-
-        // 그리드의 높이는 각 행의 가장 높은 요소의 합입니다.
-        // 높이 제약 조건으로 강제 변환
-        val height = rowHeights.sumOf { it }
-            .coerceIn(constraints.minHeight.rangeTo(constraints.maxHeight))
-
-        // 이전 행의 누적 높이를 기준으로 각 행의 Y 구하기
-        // 그려질 시작 Y 구하는 거
-        val rowY = IntArray(rows) { 0 }
-        for (i in 1 until rows) {
-            rowY[i] = rowY[i-1] + rowHeights[i-1]
-        }
-
-        // 부모 레이아웃의 크기 설정
-        layout(width, height) {
-            // 행당 우리가 배치한 x 코드
-            val rowX = IntArray(rows) { 0 }
-
-            placeables.forEachIndexed { index, placeable ->
-                val row = index % rows
-                placeable.placeRelative(
-                    x = rowX[row],
-                    y = rowY[row]
-                )
-                rowX[row] += placeable.width
-            }
-        }
-        // endregion
-    }
-
-}
 
 /**
  * ================================================================================================
