@@ -22,6 +22,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import com.codelabs.state.ui.StateCodelabTheme
 
 class TodoActivity : AppCompatActivity() {
@@ -42,7 +44,25 @@ class TodoActivity : AppCompatActivity() {
 
 @Composable
 private fun TodoActivityScreen(todoViewModel: TodoViewModel) {
-    val items = listOf<TodoItem>() // 다음 단계에서 이 작업을 완료합니다.
+    // 이 줄은 LiveData를 관찰하고 현재 값을 List<TodoItem>으로 직접 사용하도록 합니다.
+    /**
+     * val itemsv: List<TodoItem>은 List<TodoItem> 유형의 변수 항목을 선언합니다.
+     *
+     * todoViewModel.todoItems는 ViewModel의 LiveData<List<TodoItem>입니다.
+     *
+     * [.observeAsState]는 LiveData<T>를 관찰하고 이를 State<T> 객체로 변환하여 Compose가 값 변경에 반응할 수 있도록 합니다.
+     *
+     * listOf()는 LiveData가 초기화되기 전에 가능한 null 결과를 피하기 위한 초기 값입니다. 전달되지 않은 항목은 List<TodoItem>이 될까요? nullable입니다.
+     *
+     * by는 Kotlin의 속성 대리자 구문이며, 이를 통해 자동으로 State<List<TodoItem>>을 observeAsState에서 일반 List<TodoItem>으로 래핑 해제할 수 있습니다.
+     *
+     *
+     * ObservAsState는 LiveData를 관찰하고 LiveData가 변경될 때마다 업데이트되는 State 객체를 반환합니다.
+     * 컴포지션에서 컴포저블이 제거되면 자동으로 관찰이 중지됩니다.
+
+
+     */
+    val items: List<TodoItem> by todoViewModel.todoItems.observeAsState(listOf())
     TodoScreen(items = items,
         onAddItem = todoViewModel::addItem, //{ todoViewModel.addItem(it) },
         onRemoveItem = { todoViewModel.removeItem(it) })
