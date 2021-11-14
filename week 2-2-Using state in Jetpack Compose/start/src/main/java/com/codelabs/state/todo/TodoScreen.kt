@@ -118,7 +118,18 @@ fun TodoRow(todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifie
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(todo.task)
-        val iconAlpha = randomTint()
+        /**
+         * remember
+         * 키 인수 – 이 메모리가 사용하는 "키"는 괄호 안에 전달되는 부분입니다. 여기서 todo.id를 키로 전달합니다.
+         * 계산 – 기억할 새 값을 계산하는 람다로 후행 람다로 전달됩니다. 여기에서 randomTint()를 사용하여 임의의 값을 계산합니다.
+         *
+         * 컴포지션에 기억된 값은 호출 컴포저블이 트리에서 제거되는 즉시 잊혀집니다.
+         * 호출하는 컴포저블이 트리에서 이동하는 경우에도 다시 초기화됩니다. 상단의 항목을 제거하여 LazyColumn에서 이 문제를 일으킬 수 있습니다.
+         *
+         * 컴포저블은 재구성을 지원하기 위해 멱등해야 합니다.
+
+         */
+        val iconAlpha: Float = remember(todo.id) { randomTint() }
         Icon(
             imageVector = todo.icon.imageVector,
             tint = LocalContentColor.current.copy(alpha = iconAlpha),
