@@ -150,7 +150,7 @@ private fun randomTint(): Float {
 }
 
 @Composable
-fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: Modifier) {
+fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: Modifier, onImeAction: () -> Unit = {}) {
     /*
     경고: 이 텍스트 필드는 상태를 끌어올려야 할 때 호이스트하지 않습니다.
      이 섹션의 뒷부분에서 우리는 이 기능을 제거할 것입니다.
@@ -194,6 +194,11 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     val (text, setText) = remember { mutableStateOf("")}
     val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default)}
     val iconsVisible = text.isNotBlank()
+    val summit = {
+        onItemComplete(TodoItem(text, icon))
+        setIcon(TodoIcon.Default)
+        setText("")
+    }
     // val iconsVisible: LiveData<Boolean> = textLiveData.map { it.isNotBlank() }
     Column {
         Row(
@@ -206,18 +211,14 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
                 onTextChange = setText,
                 Modifier
                     .weight(1f)
-                    .padding(end = 8.dp)
+                    .padding(end = 8.dp),
+                onImeAction = summit // 엔터키 액션 추가 // 제출 콜백을 TodoInputText에 전달
             )
             TodoEditButton(
-                onClick = {
-                          onItemComplete(TodoItem(text)) // onItemComplete 이벤트를 전송합니다.
-                         setText("") // 내부 텍스트 지우기
-                    setIcon(TodoIcon.Default)
-                },
+                onClick = summit, // 제출 콜백을 TodoInputText에 전달
                 text = "Add",
                 modifier = Modifier.align(Alignment.CenterVertically),
                 enabled = text.isNotBlank() // 텍스트가 비어 있지 않으면 활성화
-
             )
         }
         if (iconsVisible) {
