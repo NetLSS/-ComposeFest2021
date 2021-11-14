@@ -245,7 +245,7 @@ fun BodyContent2(modifier: Modifier = Modifier) {
  * ================================================================================================
  */
 
-@Preview
+//@Preview
 @Composable
 fun TextWithPaddingToBaselinePreview() {
     ComposeLayoutTheme {
@@ -254,7 +254,7 @@ fun TextWithPaddingToBaselinePreview() {
     }
 }
 
-@Preview
+//@Preview
 @Composable
 fun TextWithNormalPaddingPreview() {
     ComposeLayoutTheme {
@@ -395,7 +395,7 @@ fun BodyContent(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
+//@Preview
 @Composable
 fun LayoutsCodelabPreview() {
     ComposeLayoutTheme {
@@ -452,7 +452,7 @@ fun PhotographerCard(modifier: Modifier = Modifier) {
 
 }
 
-@Preview
+//@Preview
 @Composable
 fun PhotographerCardPreview() {
     ComposeLayoutTheme {
