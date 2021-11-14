@@ -192,6 +192,9 @@ fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: M
 fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     // onItemComplete는 사용자가 항목을 완료할 때 발생하는 이벤트입니다.
     val (text, setText) = remember { mutableStateOf("")}
+    val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default)}
+    val iconsVisible = text.isNotBlank()
+    // val iconsVisible: LiveData<Boolean> = textLiveData.map { it.isNotBlank() }
     Column {
         Row(
             Modifier
@@ -215,6 +218,11 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
                 enabled = text.isNotBlank() // 텍스트가 비어 있지 않으면 활성화
 
             )
+        }
+        if (iconsVisible) {
+            AnimatedIconRow(icon = icon, onIconChange = setIcon, Modifier.padding(top = 8.dp))
+        } else {
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
