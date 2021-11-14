@@ -76,7 +76,7 @@ fun TodoScreen(
     Column {
         // TodoScreen 상단에 TodoItemInputBackground 및 TodoItem 추가
         TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxWidth()) {
-            TodoItemInput(onItemComplete = onAddItem)
+            TodoItemEntryInput(onItemComplete = onAddItem)
         }
         LazyColumn(
             modifier = Modifier.weight(1f),
@@ -189,7 +189,7 @@ fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: M
 }
 
 @Composable
-fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
+fun TodoItemEntryInput(onItemComplete: (TodoItem) -> Unit) {
     // onItemComplete는 사용자가 항목을 완료할 때 발생하는 이벤트입니다.
     val (text, setText) = remember { mutableStateOf("")}
     val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default)}
@@ -200,6 +200,25 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
         setText("")
     }
     // val iconsVisible: LiveData<Boolean> = textLiveData.map { it.isNotBlank() }
+    TodoItemEntryInput(
+        text = text,
+        onTextChange = setText,
+        summit = summit,
+        iconsVisible = iconsVisible,
+        icon = icon,
+        setIcon = setIcon
+    )
+}
+
+@Composable
+fun TodoItemEntryInput(
+    text: String,
+    onTextChange: (String) -> Unit,
+    summit: () -> Unit,
+    iconsVisible: Boolean,
+    icon: TodoIcon,
+    setIcon: (TodoIcon) -> Unit
+) {
     Column {
         Row(
             Modifier
@@ -208,12 +227,12 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
         ) {
             TodoInputTextField(
                 text = text,
-                onTextChange = setText,
+                onTextChange = onTextChange,
                 Modifier
                     .weight(1f)
                     .padding(end = 8.dp),
                 onImeAction = summit // 엔터키 액션 추가 // 제출 콜백을 TodoInputText에 전달
-            /*
+                /*
             키보드 작업을 처리하기 위해 TextField는 두 가지 매개변수를 제공합니다.
             keyboardOptions - 완료 IME 작업 표시를 활성화하는 데 사용됩니다.
             keyboardActions - 트리거된 특정 IME 작업에 대한 응답으로 트리거될 작업을 지정하는 데 사용됨 - 이 경우 완료를 누르면 제출이 호출되고 키보드가 숨겨지기를 원합니다.
@@ -256,4 +275,4 @@ fun PreviewTodoRow() {
 
 @Preview
 @Composable
-fun PreviewTodoItemInput() = TodoItemInput(onItemComplete = { })
+fun PreviewTodoItemInput() = TodoItemEntryInput(onItemComplete = { })
