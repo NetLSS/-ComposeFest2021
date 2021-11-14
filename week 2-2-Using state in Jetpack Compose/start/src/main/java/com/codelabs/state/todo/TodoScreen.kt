@@ -17,12 +17,7 @@
 package com.codelabs.state.todo
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
@@ -30,6 +25,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -110,9 +106,10 @@ fun TodoScreen(
  * @param modifier modifier for this element
  */
 @Composable
-fun TodoRow(todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifier = Modifier,
-            iconAlpha: Float = remember(todo.id) { randomTint() } //호출자가 이 값을 제어할 수 있도록 하려면 새 iconAlpha 매개변수의 기본 인수로 기억 호출을 이동하기만 하면 됩니다.
-            ) {
+fun TodoRow(
+    todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifier = Modifier,
+    iconAlpha: Float = remember(todo.id) { randomTint() } //호출자가 이 값을 제어할 수 있도록 하려면 새 iconAlpha 매개변수의 기본 인수로 기억 호출을 이동하기만 하면 됩니다.
+) {
     Row(
         modifier = modifier
             .clickable { onItemClicked(todo) }
@@ -145,6 +142,30 @@ fun TodoRow(todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifie
 
 private fun randomTint(): Float {
     return Random.nextFloat().coerceIn(0.3f, 0.9f)
+}
+
+@Composable
+fun TodoInputTextField(modifier: Modifier) {
+    /*
+    경고: 이 텍스트 필드는 상태를 끌어올려야 할 때 호이스트하지 않습니다.
+     이 섹션의 뒷부분에서 우리는 이 기능을 제거할 것입니다.
+     */
+    /*
+    You declare a MutableState object in a composable three ways:
+
+    val state = remember { mutableStateOf(default) }
+    var value by remember { mutableStateOf(default) }
+    val (value, setValue) = remember { mutableStateOf(default) }
+     */
+    /*
+    MutableState<T>는 MutableLiveData<T>와 유사하지만 compose 런타임과 통합됩니다.
+    관찰 가능하기 때문에 업데이트될 때마다 compose에 지시하므로
+     compose는 이를 읽는 모든 구성 요소를 재구성할 수 있습니다.
+     */
+    val (text, setText) = remember { // getter, setter
+        mutableStateOf("")
+    }
+    TodoInputText(text, setText, modifier)
 }
 
 @Preview
