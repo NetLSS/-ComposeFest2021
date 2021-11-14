@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberImagePainter
 import com.example.composelayout.ui.theme.ComposeLayoutTheme
 import com.google.android.material.chip.Chip
@@ -55,6 +56,47 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/**
+ * ================================================================================================
+ */
+// Constraint Layout
+@Composable
+fun ConstraintLayoutContent() {
+    ConstraintLayout {
+        // 제약할 컴포저블에 대한 참조 생성
+        val (button, text) = createRefs()
+
+        Button(onClick = { /*TODO*/ },
+                // 버튼 컴포저블에 참조 "버튼" 할당
+                // ConstraintLayout의 맨 위에 제한합니다.
+                modifier = Modifier.constrainAs(button) {
+                    top.linkTo(parent.top, margin = 16.dp)
+                }
+            ) {
+            Text("Button")
+        }
+
+        // 텍스트 컴포저블에 참조 "텍스트" 할당
+        // 그리고 그것을 Button 컴포저블의 맨 아래로 제한합니다.
+        Text("Text", Modifier.constrainAs(text){
+            top.linkTo(button.bottom, margin = 16.dp)
+        })
+
+    }
+}
+
+@Preview
+@Composable
+fun ConstraintLayoutContentPreview() {
+    ComposeLayoutTheme{
+        ConstraintLayoutContent()
+    }
+}
+
+/**
+ * ================================================================================================
+ */
+
 val topics = listOf(
     "Arts & Crafts", "Beauty", "Books", "Business", "Comics", "Culinary",
     "Design", "Fashion", "Film", "History", "Maths", "Music", "People", "Philosophy",
@@ -77,7 +119,7 @@ fun BodyContent3(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
+//@Preview
 @Composable
 fun LayoutsCodelabPreview2() {
     ComposeLayoutTheme {
@@ -107,7 +149,7 @@ fun Chip(modifier: Modifier = Modifier, text: String) {
     }
 }
 
-@Preview
+//@Preview
 @Composable
 fun ChipPreview() {
     ComposeLayoutTheme {
