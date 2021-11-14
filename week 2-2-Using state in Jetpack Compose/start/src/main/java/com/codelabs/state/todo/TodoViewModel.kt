@@ -69,6 +69,7 @@ class TodoViewModel : ViewModel() {
     // event: removeItem
     fun removeItem(item: TodoItem) {
         todoItems.remove(item)
+        onEditDone() // 항목을 제거할 때 편집기를 열어 두지 않음
     }
 
     // event : onEditItemSelected
@@ -84,7 +85,7 @@ class TodoViewModel : ViewModel() {
     // event : onEditItemChange
     fun onEditItemChange(item: TodoItem) {
         val currentItem = requireNotNull(currentEditItem)
-        
+
         require(currentItem.id == item.id){
             "currentEditItem과 동일한 ID를 가진 항목만 변경할 수 있습니다."
         }
