@@ -20,6 +20,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
+/**
+ * 이 ViewModel을 사용하여 TodoScreen에서 상태를 호이스트하려고 합니다.
+ */
+
 class TodoViewModel : ViewModel() {
 
     private var _todoItems = MutableLiveData(listOf<TodoItem>())

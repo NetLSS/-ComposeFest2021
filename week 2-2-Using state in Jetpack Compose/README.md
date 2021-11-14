@@ -36,6 +36,7 @@ data flow is, and how to apply it in a Jetpack Compose application to build stat
 
 상태 호이스팅은 구성 요소를 상태 비저장 상태로 만들기 위해 상태를 위로 이동하는 패턴입니다.
 
+Surface는 앱에 배경을 추가하고 텍스트 색상을 구성합니다.
 
 
 ### 단방향 데이터 흐름
