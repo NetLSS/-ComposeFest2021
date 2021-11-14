@@ -40,9 +40,34 @@ import kotlin.random.Random
 /**
  * Stateless component that is responsible for the entire todo screen.
  *
- * @param items (state) list of [TodoItem] to display
- * @param onAddItem (event) request an item be added
- * @param onRemoveItem (event) request an item be removed
+ * @param items (state) list of [TodoItem] to display (items – 화면에 표시할 변경할 수 없는 항목 목록)
+ * @param onAddItem (event) request an item be added (onAddItem – 사용자가 항목 추가를 요청할 때의 이벤트)
+ * @param onRemoveItem (event) request an item be removed (onRemoveItem – 사용자가 항목 제거를 요청할 때의 이벤트)
+ *
+ * 사실, 이 컴포저블은 stateless입니다.
+ * 전달된 항목 목록만 표시되며 목록을 직접 편집할 수 있는 방법은 없습니다.
+ * 대신 변경을 요청할 수 있는 두 개의 이벤트 onRemoveItem 및 onAddItem이 전달됩니다.
+ *
+ * 이것은 다음과 같은 질문을 제기합니다.
+ * 상태가 없는 경우 어떻게 편집 가능한 목록을 표시할 수 있습니까?
+ * 상태 호이스팅(state hoisting)이라는 기술을 사용하여 수행합니다.
+ *
+ * 상태 호이스팅은 구성 요소를 상태 비저장 상태로 만들기 위해
+ * 상태를 위로 이동하는 패턴입니다.
+ *
+ * 상태 비저장 구성 요소는 테스트하기 쉽고 버그가 적으며 재사용 기회가 더 많습니다.
+ *
+ * 이러한 매개변수의 조합은 호출자가 이 구성 가능에서 상태를 끌어올릴 수 있도록 합니다.
+ *
+ * 이것이 어떻게 작동하는지 보기 위해 이 컴포저블의 UI 업데이트 루프를 살펴보겠습니다.
+ *
+ * 이벤트 – 사용자가 항목 추가 또는 제거를 요청할 때 TodoScreen은 onAddItem 또는 onRemoveItem을 호출합니다.
+ *
+ * 상태 업데이트 – TodoScreen 호출자는 상태를 업데이트하여 이러한 이벤트에 응답할 수 있습니다.
+ *
+ * 표시 상태 – 상태가 업데이트되면 TodoScreen이 새 항목과 함께 다시 호출되고 화면에 표시할 수 있습니다.
+
+
  */
 @Composable
 fun TodoScreen(
