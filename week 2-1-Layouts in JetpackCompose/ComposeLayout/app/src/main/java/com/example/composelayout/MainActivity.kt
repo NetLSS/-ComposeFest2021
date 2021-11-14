@@ -63,7 +63,12 @@ val topics = listOf(
 
 @Composable
 fun BodyContent3(modifier: Modifier = Modifier) {
-    Row(modifier = modifier.horizontalScroll(rememberScrollState())){
+    Row(modifier = modifier
+        .background(color = androidx.compose.ui.graphics.Color.LightGray)
+        .padding(16.dp) // 순서 중요. (스크롤 가능한 사이즈 232x232 됨)
+        .size(200.dp)
+        //.padding(16.dp) // 순서 중요. (스크롤 가능한 사이즈 200x200 됨) (200-16-16)
+        .horizontalScroll(rememberScrollState())){
         StaggeredGrid(modifier = modifier, rows = 5) {
             for (topic in topics) {
                 Chip(modifier = Modifier.padding(8.dp), text = topic)
