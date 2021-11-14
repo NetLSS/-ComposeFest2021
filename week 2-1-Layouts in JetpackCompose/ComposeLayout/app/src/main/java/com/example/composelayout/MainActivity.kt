@@ -88,6 +88,22 @@ fun TwoTexts(modifier: Modifier = Modifier, text1: String, text2: String) {
     /**
      height(IntrinsicSize.Min) 은 최소 고유 높이만큼 키가 커지도록 강제되는 자식 크기를 조정합니다.
      재귀적이므로 Row와 그 자식 minIntrinsicHeight를 쿼리합니다.
+
+     행의 minIntrinsicHeight는 자식의 최대 minIntrinsicHeight가 됩니다.
+
+     Divider의 minIntrinsicHeight는 제약 조건이 주어지지 않으면 공간을 차지하지 않으므로 0입니다.
+
+     텍스트의 minIntrinsicHeight는 특정 너비가 지정된 텍스트의 것입니다. 그러므로
+     행의 높이 제한은 텍스트의 최대 minIntrinsicHeight가 됩니다.
+
+     그런 다음 Divider는 Row에서 지정한 높이 제약 조건으로 높이를 확장합니다.
+
+     사용자 지정 레이아웃을 생성할 때마다 MeasurePolicy 인터페이스의
+     (min|max)Intrinsic(Width|Height)을 사용하여 내장 함수를 계산하는 방법을 수정할 수 있습니다.
+     그러나 대부분의 경우 기본값으로 충분해야 합니다.
+
+     또한 좋은 기본값을 가지고 있는 Modifier 인터페이스의 Density.
+     (min|max)Intrinsic(Width|Height)Of 메서드를 재정의하는 modifier로 내장 함수를 수정할 수 있습니다.
      */
     Row(modifier.height(IntrinsicSize.Min)) {
         Text(
