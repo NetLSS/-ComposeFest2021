@@ -110,7 +110,9 @@ fun TodoScreen(
  * @param modifier modifier for this element
  */
 @Composable
-fun TodoRow(todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifier = Modifier) {
+fun TodoRow(todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifier = Modifier,
+            iconAlpha: Float = remember(todo.id) { randomTint() } //호출자가 이 값을 제어할 수 있도록 하려면 새 iconAlpha 매개변수의 기본 인수로 기억 호출을 이동하기만 하면 됩니다.
+            ) {
     Row(
         modifier = modifier
             .clickable { onItemClicked(todo) }
@@ -129,7 +131,6 @@ fun TodoRow(todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifie
          * 컴포저블은 재구성을 지원하기 위해 멱등해야 합니다.
 
          */
-        val iconAlpha: Float = remember(todo.id) { randomTint() }
         Icon(
             imageVector = todo.icon.imageVector,
             tint = LocalContentColor.current.copy(alpha = iconAlpha),
