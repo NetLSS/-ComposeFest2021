@@ -85,7 +85,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TwoTexts(modifier: Modifier = Modifier, text1: String, text2: String) {
-    Row(modifier) {
+    /**
+     height(IntrinsicSize.Min) 은 최소 고유 높이만큼 키가 커지도록 강제되는 자식 크기를 조정합니다.
+     재귀적이므로 Row와 그 자식 minIntrinsicHeight를 쿼리합니다.
+     */
+    Row(modifier.height(IntrinsicSize.Min)) {
         Text(
             modifier = Modifier
                 .weight(1f)
