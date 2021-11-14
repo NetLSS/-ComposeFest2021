@@ -47,9 +47,34 @@ class MainActivity : ComponentActivity() {
 
                 //LazyList()
 
-                BodyContent2()
+                //BodyContent2()
+
+                BodyContent3()
             }
         }
+    }
+}
+
+val topics = listOf(
+    "Arts & Crafts", "Beauty", "Books", "Business", "Comics", "Culinary",
+    "Design", "Fashion", "Film", "History", "Maths", "Music", "People", "Philosophy",
+    "Religion", "Social sciences", "Technology", "TV", "Writing"
+)
+
+@Composable
+fun BodyContent3(modifier: Modifier = Modifier) {
+    StaggeredGrid(modifier = modifier) {
+        for (topic in topics) {
+            Chip(modifier = Modifier.padding(8.dp), text = topic)
+        }
+    }
+}
+
+@Preview
+@Composable
+fun LayoutsCodelabPreview2() {
+    ComposeLayoutTheme {
+        BodyContent3()
     }
 }
 
