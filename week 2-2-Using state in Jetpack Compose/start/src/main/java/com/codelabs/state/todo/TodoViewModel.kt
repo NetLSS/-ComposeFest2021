@@ -16,7 +16,10 @@
 
 package com.codelabs.state.todo
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -46,10 +49,18 @@ class TodoViewModel : ViewModel() {
      *
      * 이 ViewModel이 View 시스템에서도 사용되었다면 LiveData를 계속 사용하는 것이 좋습니다.
      */
+
+    // private state
+    private var currentEditPosition by mutableStateOf(-1)
+
     // state: todoItems
     var todoItems = mutableStateListOf<TodoItem>()
         private set // private set을 지정함으로써 이 상태 객체에 대한 쓰기를 ViewModel 내부에서만 볼 수 있는 private setter로 제한하고 있습니다.
 
+    // state
+    val currentEditItem: TodoItem?
+        get() = todoItems.getOrNull(currentEditPosition)
+    
     // event: addItem
     fun addItem(item: TodoItem) {
         todoItems.add(item)
