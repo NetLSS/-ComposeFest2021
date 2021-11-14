@@ -74,6 +74,10 @@ fun TodoScreen(
     onRemoveItem: (TodoItem) -> Unit
 ) {
     Column {
+        // TodoScreen 상단에 TodoItemInputBackground 및 TodoItem 추가
+        TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxHeight()) {
+            TodoItemInput(onItemComplete = onAddItem)
+        }
         LazyColumn(
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(top = 8.dp)
@@ -146,7 +150,7 @@ private fun randomTint(): Float {
 }
 
 @Composable
-fun TodoInputTextField(modifier: Modifier) {
+fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: Modifier) {
     /*
     경고: 이 텍스트 필드는 상태를 끌어올려야 할 때 호이스트하지 않습니다.
      이 섹션의 뒷부분에서 우리는 이 기능을 제거할 것입니다.
@@ -163,15 +167,31 @@ fun TodoInputTextField(modifier: Modifier) {
     관찰 가능하기 때문에 업데이트될 때마다 compose에 지시하므로
      compose는 이를 읽는 모든 구성 요소를 재구성할 수 있습니다.
      */
-    val (text, setText) = remember { // getter, setter
-        mutableStateOf("")
-    }
-    TodoInputText(text, setText, modifier)
+
+
+//    val (text, setText) = remember { // getter, setter
+//        mutableStateOf("")
+//    }
+//    TodoInputText(text, setText, modifier)
+
+
+    /**
+     * 단일 진실 소스 – 상태를 복제하는 대신 이동하여 텍스트에 대해 단 하나의 진실 소스만 있도록 합니다. 이것은 버그를 피하는 데 도움이 됩니다.
+     * 캡슐화 – TodoItemInput만 상태를 수정할 수 있는 반면 다른 구성 요소는 이벤트를 TodoItemInput에 보낼 수 있습니다. 이러한 방식으로 호이스팅하면 여러 컴포저블이 상태를 사용하더라도 하나의 컴포저블만 상태 저장됩니다.
+     * 공유 가능 – 호이스트 상태는 여러 구성 요소와 함께 변경할 수 없는 값으로 공유될 수 있습니다. 여기에서는 TodoInputTextField와 TodoEditButton 모두에서 상태를 사용할 것입니다.
+     * Interceptable – TodoItemInput은 상태를 변경하기 전에 이벤트를 무시하거나 수정할 수 있습니다. 예를 들어 TodoItemInput은 사용자가 입력할 때 :emoji-codes:를 이모티콘으로 형식화할 수 있습니다.
+     * 분리 – TodoInputTextField의 상태는 어디에나 저장할 수 있습니다. 예를 들어 TodoInputTextField를 수정하지 않고 문자를 입력할 때마다 업데이트되는 Room 데이터베이스에서 이 상태를 백업하도록 선택할 수 있습니다.
+     *
+     * 이제 TodoItemInput에 상태를 추가하고 TodoInputTextField에 전달합니다.
+
+     */
+    TodoInputText(text, onTextChange, modifier)
 }
 
 @Composable
 fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     // onItemComplete는 사용자가 항목을 완료할 때 발생하는 이벤트입니다.
+    val (text, setText) = remember { mutableStateOf("")}
     Column {
         Row(
             Modifier
@@ -179,12 +199,15 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
                 .padding(top = 16.dp)
         ) {
             TodoInputTextField(
+                text = text,
+                onTextChange = setText,
                 Modifier
                     .weight(1f)
                     .padding(end = 8.dp)
             )
             TodoEditButton(
-                onClick = { /*TODO*/ }, text = "Add",
+                onClick = { /*TODO*/ },
+                text = "Add",
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
         }
@@ -209,3 +232,7 @@ fun PreviewTodoRow() {
     val todo = remember { generateRandomTodoItem() }
     TodoRow(todo = todo, onItemClicked = {}, modifier = Modifier.fillMaxWidth())
 }
+
+@Preview
+@Composable
+fun PreviewTodoItemInput() = TodoItemInput(onItemComplete = { })
