@@ -75,7 +75,7 @@ fun TodoScreen(
 ) {
     Column {
         // TodoScreen 상단에 TodoItemInputBackground 및 TodoItem 추가
-        TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxHeight()) {
+        TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxWidth()) {
             TodoItemInput(onItemComplete = onAddItem)
         }
         LazyColumn(
