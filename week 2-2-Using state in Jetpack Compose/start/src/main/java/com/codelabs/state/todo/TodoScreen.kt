@@ -270,7 +270,9 @@ fun TodoItemEntryInput(onItemComplete: (TodoItem) -> Unit) {
         onIconChange = onIconChange,
         submit = submit,
         iconsVisible = iconsVisible
-    )
+    ) {
+        TodoEditButton(onClick = submit, text = "Add", enabled = iconsVisible)
+    }
 }
 
 //@Composable
