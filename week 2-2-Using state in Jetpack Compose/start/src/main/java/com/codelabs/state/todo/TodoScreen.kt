@@ -140,8 +140,29 @@ fun TodoItemInlineEditor(
     icon = item.icon,
     onIconChange = { onEditItemChange(item.copy(icon = it)) },
     submit = onEditDone,
-    iconsVisible = true
+    iconsVisible = true,
+    buttonSlot = {
+        Row {
+            val shrinkButtons = Modifier.widthIn(20.dp)
+            TextButton(onClick = onEditDone, modifier = shrinkButtons) {
+                Text(
+                    text = "\uD83D\uDCBE", // floppy disk
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.width(30.dp)
+                )
+            }
+            TextButton(onClick = onRemoveItem, modifier = shrinkButtons) {
+                Text(
+                    text = "❌",
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.width(30.dp)
+                )
+            }
+        }
+    }
 )
+
+// TODO: 2021/11/14 색조를 안정적으로 만들고 싶다면 ViewModel로 끌어올릴 수 있습니다. 
 
 /**
  * Stateless composable that displays a full-width [TodoItem].
