@@ -50,7 +50,11 @@ class MainActivity : ComponentActivity() {
 
                 //BodyContent2()
 
-                BodyContent3()
+                //BodyContent3()
+
+                //ConstraintLayoutContent()
+
+                ConstraintLayoutContent2()
             }
         }
     }
@@ -60,6 +64,40 @@ class MainActivity : ComponentActivity() {
  * ================================================================================================
  */
 // Constraint Layout
+
+@Composable
+fun ConstraintLayoutContent2() {
+    ConstraintLayout {
+        // 3개의 컴포저블에 대한 참조를 생성합니다.
+        // ConstraintLayout의 본문에서
+        val (button1, button2, text) = createRefs()
+
+        Button(onClick = { /*TODO*/ },
+            modifier = Modifier.constrainAs(button1) {
+                top.linkTo(parent.top, margin = 16.dp)
+            }) {
+            Text("Button 1")
+        }
+
+        Text("Text", Modifier.constrainAs(text) {
+            top.linkTo(button1.bottom, margin = 16.dp)
+            centerAround(button1.end)
+        })
+
+        val barrier = createEndBarrier(button1, text) // button1 과 text 를 감싼 End(제약)
+        Button(onClick = { /*TODO*/ },
+            modifier = Modifier.constrainAs(button2) {
+                top.linkTo(parent.top, margin = 16.dp)
+                start.linkTo(barrier) // End 장벽부분을 start 로
+            }
+        ) {
+            Text("Button 2")
+        }
+
+    }
+}
+
+
 @Composable
 fun ConstraintLayoutContent() {
     ConstraintLayout {
@@ -91,7 +129,8 @@ fun ConstraintLayoutContent() {
 @Composable
 fun ConstraintLayoutContentPreview() {
     ComposeLayoutTheme{
-        ConstraintLayoutContent()
+        //ConstraintLayoutContent()
+        ConstraintLayoutContent2()
     }
 }
 
