@@ -206,9 +206,14 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
                     .padding(end = 8.dp)
             )
             TodoEditButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                          onItemComplete(TodoItem(text)) // onItemComplete 이벤트를 전송합니다.
+                         setText("") // 내부 텍스트 지우기
+                },
                 text = "Add",
-                modifier = Modifier.align(Alignment.CenterVertically)
+                modifier = Modifier.align(Alignment.CenterVertically),
+                enabled = text.isNotBlank() // 텍스트가 비어 있지 않으면 활성화
+
             )
         }
     }
