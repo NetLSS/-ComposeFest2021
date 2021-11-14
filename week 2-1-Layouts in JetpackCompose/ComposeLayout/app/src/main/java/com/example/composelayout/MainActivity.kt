@@ -54,7 +54,9 @@ class MainActivity : ComponentActivity() {
 
                 //ConstraintLayoutContent()
 
-                ConstraintLayoutContent2()
+                //ConstraintLayoutContent2()
+
+                LargeConstraintLayout()
             }
         }
     }
@@ -65,6 +67,31 @@ class MainActivity : ComponentActivity() {
  */
 // Constraint Layout
 
+// ex3
+@Composable
+fun LargeConstraintLayout() {
+    ConstraintLayout {
+        val text = createRef()
+
+        val guideline = createGuidelineFromStart(fraction = 0.5f)
+        Text(
+            "This is a very very very very very very very long text",
+            Modifier.constrainAs(text) {
+                linkTo(start = guideline, end = parent.end)
+            }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun LargeConstraintLayoutPreview() {
+    ComposeLayoutTheme {
+        LargeConstraintLayout()
+    }
+}
+
+// ex2
 @Composable
 fun ConstraintLayoutContent2() {
     ConstraintLayout {
@@ -84,7 +111,7 @@ fun ConstraintLayoutContent2() {
             centerAround(button1.end)
         })
 
-        // constrainAs 안에서는 만들 수 없음. 밖에서 만들자 
+        // constrainAs 안에서는 만들 수 없음. 밖에서 만들자
         val barrier = createEndBarrier(button1, text) // button1 과 text 를 감싼 End(제약)
         Button(onClick = { /*TODO*/ },
             modifier = Modifier.constrainAs(button2) {
@@ -98,7 +125,7 @@ fun ConstraintLayoutContent2() {
     }
 }
 
-
+// ex1
 @Composable
 fun ConstraintLayoutContent() {
     ConstraintLayout {
