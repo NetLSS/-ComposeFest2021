@@ -60,7 +60,7 @@ class TodoViewModel : ViewModel() {
     // state
     val currentEditItem: TodoItem?
         get() = todoItems.getOrNull(currentEditPosition)
-    
+
     // event: addItem
     fun addItem(item: TodoItem) {
         todoItems.add(item)
@@ -69,6 +69,27 @@ class TodoViewModel : ViewModel() {
     // event: removeItem
     fun removeItem(item: TodoItem) {
         todoItems.remove(item)
+    }
+
+    // event : onEditItemSelected
+    fun onEditItemSelected(item: TodoItem) {
+        currentEditPosition = todoItems.indexOf(item)
+    }
+
+    // event : onEditDone
+    fun onEditDone() {
+        currentEditPosition = -1
+    }
+
+    // event : onEditItemChange
+    fun onEditItemChange(item: TodoItem) {
+        val currentItem = requireNotNull(currentEditItem)
+        
+        require(currentItem.id == item.id){
+            "currentEditItem과 동일한 ID를 가진 항목만 변경할 수 있습니다."
+        }
+
+        todoItems[currentEditPosition] = item
     }
 
 
