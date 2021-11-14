@@ -27,6 +27,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -166,6 +167,28 @@ fun TodoInputTextField(modifier: Modifier) {
         mutableStateOf("")
     }
     TodoInputText(text, setText, modifier)
+}
+
+@Composable
+fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
+    // onItemComplete는 사용자가 항목을 완료할 때 발생하는 이벤트입니다.
+    Column {
+        Row(
+            Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp)
+        ) {
+            TodoInputTextField(
+                Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp)
+            )
+            TodoEditButton(
+                onClick = { /*TODO*/ }, text = "Add",
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
+        }
+    }
 }
 
 @Preview
