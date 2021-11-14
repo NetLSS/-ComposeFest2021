@@ -251,19 +251,23 @@ fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: M
 
 @Composable
 fun TodoItemEntryInput(onItemComplete: (TodoItem) -> Unit) {
-    val (text, setText) = remember { mutableStateOf("") }
-    val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default)}
+    val (text, onTextChange) = remember { mutableStateOf("") }
+    val (icon, onIconChange) = remember { mutableStateOf(TodoIcon.Default)}
+
     val iconsVisible = text.isNotBlank()
     val submit = {
-        onItemComplete(TodoItem(text, icon))
-        setIcon(TodoIcon.Default)
-        setText("")
+        if (text.isNotBlank()) {
+            onItemComplete(TodoItem(text, icon))
+            onTextChange("")
+            onIconChange(TodoIcon.Default)
+        }
+
     }
     TodoItemInput(
         text = text,
-        onTextChange = setText,
+        onTextChange = onTextChange,
         icon = icon,
-        onIconChange = setIcon,
+        onIconChange = onIconChange,
         submit = submit,
         iconsVisible = iconsVisible
     )
