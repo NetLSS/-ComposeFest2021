@@ -1,4 +1,4 @@
-# ComposeFest2021
+# ComposeFest2021 For @NetLss
 Using state in Jetpack Compose 본 폴더를 Android Studio를 이용해서 열어주세요.
 작업을 완료하고, push 해주세요.
 
@@ -13,6 +13,28 @@ data flow is, and how to apply it in a Jetpack Compose application to build stat
 ## Screenshots
 
 ![Finished code](screenshots/state_movie.gif "After: Animation of fully completed project")
+
+## 정리
+
+상태란?  
+
+기본적으로 애플리케이션의 상태는 시간이 지남에 따라 변경될 수 있는 모든 값입니다.
+
+이것은 매우 광범위한 정의이며 Room 데이터베이스에서 클래스의 변수에 이르기까지 모든 것을 포함합니다.
+
+## What you'll learn
+
+- 단방향 데이터 흐름이란
+- UI에서 상태 및 이벤트에 대해 생각하는 방법
+- Compose에서 Architecture Component의 ViewModel 및 LiveData를 사용하여 상태를 관리하는 방법
+- Compose가 상태를 사용하여 화면을 그리는 방법
+- 상태를 호출자로 이동해야 하는 경우
+- Compose에서 내부 상태를 사용하는 방법
+- State<T>를 사용하여 Compose와 상태를 통합하는 방법
+
+
+
+
 
 ## License
 
