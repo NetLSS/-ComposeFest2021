@@ -80,6 +80,8 @@ fun ConstraintLayoutContent() {
         // 그리고 그것을 Button 컴포저블의 맨 아래로 제한합니다.
         Text("Text", Modifier.constrainAs(text){
             top.linkTo(button.bottom, margin = 16.dp)
+            // ConstraintLayout에서 텍스트를 가로로 가운데 정렬합니다.
+            centerHorizontallyTo(parent)
         })
 
     }
