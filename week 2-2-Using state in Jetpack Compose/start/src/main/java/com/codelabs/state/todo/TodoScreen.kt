@@ -106,6 +106,21 @@ fun TodoScreen(
     }
 }
 
+@Composable
+fun TodoItemInlineEditor(
+    item: TodoItem,
+    onEditItemChange: (TodoItem) -> Unit,
+    onEditDone: () -> Unit,
+    onRemoveItem: () -> Unit
+) = TodoItemInput(
+    text = item.task,
+    onTextChange = { onEditItemChange(item.copy(task = it)) },
+    icon = item.icon,
+    onIconChange = { onEditItemChange(item.copy(icon = it)) },
+    submit = onEditDone,
+    iconsVisible = true
+)
+
 /**
  * Stateless composable that displays a full-width [TodoItem].
  *
@@ -191,36 +206,98 @@ fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: M
     TodoInputText(text, onTextChange, modifier, onImeAction)
 }
 
+//@Composable
+//fun TodoItemEntryInput(onItemComplete: (TodoItem) -> Unit) {
+//    // onItemComplete는 사용자가 항목을 완료할 때 발생하는 이벤트입니다.
+//    val (text, setText) = remember { mutableStateOf("")}
+//    val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default)}
+//    val iconsVisible = text.isNotBlank()
+//    val summit = {
+//        onItemComplete(TodoItem(text, icon))
+//        setIcon(TodoIcon.Default)
+//        setText("")
+//    }
+//    // val iconsVisible: LiveData<Boolean> = textLiveData.map { it.isNotBlank() }
+//    TodoItemInput(
+//        text = text,
+//        onTextChange = setText,
+//        summit = summit,
+//        iconsVisible = iconsVisible,
+//        icon = icon
+//    )
+//}
+
 @Composable
 fun TodoItemEntryInput(onItemComplete: (TodoItem) -> Unit) {
-    // onItemComplete는 사용자가 항목을 완료할 때 발생하는 이벤트입니다.
-    val (text, setText) = remember { mutableStateOf("")}
+    val (text, setText) = remember { mutableStateOf("") }
     val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default)}
     val iconsVisible = text.isNotBlank()
-    val summit = {
+    val submit = {
         onItemComplete(TodoItem(text, icon))
         setIcon(TodoIcon.Default)
         setText("")
     }
-    // val iconsVisible: LiveData<Boolean> = textLiveData.map { it.isNotBlank() }
-    TodoItemEntryInput(
+    TodoItemInput(
         text = text,
         onTextChange = setText,
-        summit = summit,
-        iconsVisible = iconsVisible,
         icon = icon,
-        setIcon = setIcon
+        onIconChange = setIcon,
+        submit = submit,
+        iconsVisible = iconsVisible
     )
 }
 
+//@Composable
+//fun TodoItemInput(
+//    text: String,
+//    onTextChange: (String) -> Unit,
+//    summit: () -> Unit,
+//    iconsVisible: Boolean,
+//    icon: TodoIcon,
+//) {
+//    Column {
+//        Row(
+//            Modifier
+//                .padding(horizontal = 16.dp)
+//                .padding(top = 16.dp)
+//        ) {
+//            TodoInputTextField(
+//                text = text,
+//                onTextChange = onTextChange,
+//                Modifier
+//                    .weight(1f)
+//                    .padding(end = 8.dp),
+//                onImeAction = summit // 엔터키 액션 추가 // 제출 콜백을 TodoInputText에 전달
+//                /*
+//            키보드 작업을 처리하기 위해 TextField는 두 가지 매개변수를 제공합니다.
+//            keyboardOptions - 완료 IME 작업 표시를 활성화하는 데 사용됩니다.
+//            keyboardActions - 트리거된 특정 IME 작업에 대한 응답으로 트리거될 작업을 지정하는 데 사용됨 - 이 경우 완료를 누르면 제출이 호출되고 키보드가 숨겨지기를 원합니다.
+//
+//             */
+//            )
+//            TodoEditButton(
+//                onClick = summit, // 제출 콜백을 TodoInputText에 전달
+//                text = "Add",
+//                modifier = Modifier.align(Alignment.CenterVertically),
+//                enabled = text.isNotBlank() // 텍스트가 비어 있지 않으면 활성화
+//            )
+//        }
+//        if (iconsVisible) {
+//            AnimatedIconRow(icon = icon, onIconChange = setIcon, Modifier.padding(top = 8.dp))
+//        } else {
+//            Spacer(modifier = Modifier.height(16.dp))
+//        }
+//    }
+//}
+
 @Composable
-fun TodoItemEntryInput(
+fun TodoItemInput(
     text: String,
     onTextChange: (String) -> Unit,
-    summit: () -> Unit,
-    iconsVisible: Boolean,
     icon: TodoIcon,
-    setIcon: (TodoIcon) -> Unit
+    onIconChange: (TodoIcon) -> Unit,
+    submit: () -> Unit,
+    iconsVisible: Boolean
 ) {
     Column {
         Row(
@@ -228,29 +305,23 @@ fun TodoItemEntryInput(
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
         ) {
-            TodoInputTextField(
-                text = text,
-                onTextChange = onTextChange,
+            TodoInputText(
+                text,
+                onTextChange,
                 Modifier
                     .weight(1f)
                     .padding(end = 8.dp),
-                onImeAction = summit // 엔터키 액션 추가 // 제출 콜백을 TodoInputText에 전달
-                /*
-            키보드 작업을 처리하기 위해 TextField는 두 가지 매개변수를 제공합니다.
-            keyboardOptions - 완료 IME 작업 표시를 활성화하는 데 사용됩니다.
-            keyboardActions - 트리거된 특정 IME 작업에 대한 응답으로 트리거될 작업을 지정하는 데 사용됨 - 이 경우 완료를 누르면 제출이 호출되고 키보드가 숨겨지기를 원합니다.
-
-             */
+                submit
             )
             TodoEditButton(
-                onClick = summit, // 제출 콜백을 TodoInputText에 전달
+                onClick = submit,
                 text = "Add",
                 modifier = Modifier.align(Alignment.CenterVertically),
-                enabled = text.isNotBlank() // 텍스트가 비어 있지 않으면 활성화
+                enabled = text.isNotBlank()
             )
         }
         if (iconsVisible) {
-            AnimatedIconRow(icon = icon, onIconChange = setIcon, Modifier.padding(top = 8.dp))
+            AnimatedIconRow(icon, onIconChange, Modifier.padding(top = 8.dp))
         } else {
             Spacer(modifier = Modifier.height(16.dp))
         }
