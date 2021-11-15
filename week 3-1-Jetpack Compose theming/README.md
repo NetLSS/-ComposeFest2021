@@ -13,7 +13,11 @@
 - 구성 요소 스타일 지정 방법
 - 밝고 어두운 테마를 지원하는 방법
 
+## 꿀팁
 
+- 두 개 파일 코드 비교하기
+  - 2개 파일 선택 후
+  - command+D
 
 
 # Jetpack Compose Theming Codelab

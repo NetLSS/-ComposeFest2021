@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+/*
+com.codelab.theming.data 여기에는 모델 클래스와 샘플 데이터가 포함됩니다. 이 코드랩에서는 이 패키지를 편집할 필요가 없습니다.
+
+ */
 package com.codelab.theming.data
 
 import androidx.annotation.DrawableRes
