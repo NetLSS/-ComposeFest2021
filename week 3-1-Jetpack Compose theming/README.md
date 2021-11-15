@@ -3,6 +3,19 @@
 본 폴더를 Android Studio를 이용해서 열어주세요.
 작업을 완료하고, push 해주세요.
 
+## 무엇을 배울 것인가
+
+이 코드랩에서는 다음을 배우게 됩니다.
+
+- 머티리얼 디자인 입문서 및 브랜드에 맞게 사용자 정의하는 방법
+- Compose가 머티리얼 디자인 시스템을 구현하는 방법
+- 앱 전체에서 색상, 타이포그래피 및 모양을 정의하고 사용하는 방법
+- 구성 요소 스타일 지정 방법
+- 밝고 어두운 테마를 지원하는 방법
+
+
+
+
 # Jetpack Compose Theming Codelab
 
 This folder contains the source code for the [Jetpack Compose Theming codelab](https://developer.android.com/codelabs/jetpack-compose-theming).
