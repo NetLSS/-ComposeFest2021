@@ -201,7 +201,7 @@ fun Home() {
         backgroundColor = backgroundColor,
         floatingActionButton = {
             HomeFloatingActionButton(
-                extended = lazyListState.isScrollingUp(),
+                extended = lazyListState.isScrollingUp(), // 스크롤 업일 때만 펼치기
                 onClick = {
                     coroutineScope.launch {
                         showEditMessage()
@@ -299,7 +299,8 @@ private fun HomeFloatingActionButton(
             )
             // Toggle the visibility of the content with animation.
             // TODO 2-1: Animate this visibility change.
-            if (extended) {
+            //if (extended) {  // if 를 AnimatedVisibility 로 바꾸는 것만으로 애니메이션 가능
+            AnimatedVisibility (extended) {
                 Text(
                     text = stringResource(R.string.edit),
                     modifier = Modifier
