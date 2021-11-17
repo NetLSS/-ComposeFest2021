@@ -319,8 +319,19 @@ private fun HomeFloatingActionButton(
 private fun EditMessage(shown: Boolean) {
     // TODO 2-2: The message should slide down from the top on appearance and slide up on
     //           disappearance.
+    //메시지는 나타날 때 위에서 아래로 슬라이드해야 하고 사라지면 위로 슬라이드해야 합니다.
     AnimatedVisibility(
-        visible = shown
+        visible = shown,
+        enter = slideInVertically(
+            // offset -fullHeight에서 0으로 아래로 슬라이딩하여 들어갑니다.
+            initialOffsetY = { fullHeight -> -fullHeight },
+            animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
+        ),
+        exit = slideOutVertically(
+            // 오프셋 0에서 -fullHeight까지 위로 슬라이드하여 종료합니다.
+            targetOffsetY = { fullHeight -> -fullHeight },
+            animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
+        ) // 지속 시간 250
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
