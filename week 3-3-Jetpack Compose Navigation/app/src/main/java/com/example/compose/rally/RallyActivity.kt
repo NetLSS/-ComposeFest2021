@@ -29,12 +29,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.compose.rally.data.UserData
 import com.example.compose.rally.ui.accounts.AccountsBody
+import com.example.compose.rally.ui.accounts.SingleAccountBody
 import com.example.compose.rally.ui.bills.BillsBody
 import com.example.compose.rally.ui.components.RallyTabRow
 import com.example.compose.rally.ui.overview.OverviewBody
@@ -69,6 +73,7 @@ fun RallyApp() {
         // 이로써 탭 전환이 정상적으로 되기 시작한다
             backstackEntry.value?.destination?.route
         )
+
         Scaffold(
             topBar = {
                 RallyTabRow(
@@ -81,6 +86,9 @@ fun RallyApp() {
                 )
             }
         ) { innerPadding ->
+            // Navigating with arguments
+            val accountsName = RallyScreen.Accounts.name
+
             NavHost(
                 navController = navController,
                 startDestination = RallyScreen.Overview.name,
@@ -94,16 +102,47 @@ fun RallyApp() {
                 composable(RallyScreen.Overview.name) {
                     OverviewBody(
                         onClickSeeAllAccounts = { navController.navigate(RallyScreen.Accounts.name)},
-                        onClickSeeAllBills = { navController.navigate(RallyScreen.Bills.name)}
+                        onClickSeeAllBills = { navController.navigate(RallyScreen.Bills.name)},
+                        onAccountClick = { name ->
+                            navigateToSingleAccount(navController, name)
+                        }
                     )
                 }
                 composable(RallyScreen.Accounts.name) {
-                    AccountsBody(accounts = UserData.accounts)
+                    AccountsBody(accounts = UserData.accounts) { name ->
+                        navigateToSingleAccount(
+                            navController = navController,
+                            accountName = name
+                        )
+                    }
                 }
                 composable(RallyScreen.Bills.name) {
                     BillsBody(bills = UserData.bills)
                 }
+
+                composable(
+                    "$accountsName/{name}",
+                    arguments = listOf(
+                        navArgument("name") {
+                            // Make argument type safe
+                            type = NavType.StringType
+                        }
+                    )
+                ) { entry ->// NavBackStackEntry의 인수에서 "이름"을 찾습니다.
+                    val accountName = entry.arguments?.getString("name")
+                    // UserData에서 일치하는 이름 찾기
+                    val account = UserData.getAccount(accountName)
+                    // SingleAccountBody에 계정 전달
+                    SingleAccountBody(account = account)
+                }
             }
         }
     }
+}
+
+private fun navigateToSingleAccount(
+    navController: NavHostController,
+    accountName: String
+) {
+    navController.navigate("${RallyScreen.Accounts.name}/$accountName")
 }
