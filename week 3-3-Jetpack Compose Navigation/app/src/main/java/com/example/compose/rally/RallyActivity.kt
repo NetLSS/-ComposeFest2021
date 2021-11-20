@@ -22,12 +22,16 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.compose.rally.ui.components.RallyTabRow
 import com.example.compose.rally.ui.theme.RallyTheme
 
@@ -48,7 +52,10 @@ class RallyActivity : ComponentActivity() {
 fun RallyApp() {
     RallyTheme {
         val allScreens = RallyScreen.values().toList()
+        // FIXME: This duplicate source of truth
+        //  will be removed later.
         var currentScreen by rememberSaveable { mutableStateOf(RallyScreen.Overview) }
+        val navController = rememberNavController()
         Scaffold(
             topBar = {
                 RallyTabRow(
@@ -58,12 +65,25 @@ fun RallyApp() {
                 )
             }
         ) { innerPadding ->
-            Box(Modifier.padding(innerPadding)) {
-                currentScreen.content(
+            NavHost(
+                navController = navController,
+                startDestination = RallyScreen.Overview.name,
+                modifier = Modifier.padding(innerPadding)
+            ) {
+                /*currentScreen.content(
                     onScreenChange = { screen ->
                         currentScreen = RallyScreen.valueOf(screen)
                     }
-                )
+                )*/
+                composable(RallyScreen.Overview.name) {
+                    Text(RallyScreen.Overview.name)
+                }
+                composable(RallyScreen.Accounts.name) {
+                    Text(RallyScreen.Accounts.name)
+                }
+                composable(RallyScreen.Bills.name) {
+                    Text(RallyScreen.Bills.name)
+                }
             }
         }
     }
