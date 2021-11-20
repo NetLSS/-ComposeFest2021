@@ -32,25 +32,26 @@ import com.example.compose.rally.ui.overview.OverviewBody
  */
 enum class RallyScreen(
     val icon: ImageVector,
-    val body: @Composable ((String) -> Unit) -> Unit
+    //val body: @Composable ((String) -> Unit) -> Unit
 ) {
     Overview(
         icon = Icons.Filled.PieChart,
-        body = { OverviewBody() }
+        //body = { OverviewBody() }
     ),
     Accounts(
         icon = Icons.Filled.AttachMoney,
-        body = { AccountsBody(UserData.accounts) }
+        //body = { AccountsBody(UserData.accounts) }
     ),
     Bills(
         icon = Icons.Filled.MoneyOff,
-        body = { BillsBody(UserData.bills) }
+        //body = { BillsBody(UserData.bills) }
     );
 
-    @Composable
-    fun content(onScreenChange: (String) -> Unit) {
-        body(onScreenChange)
-    }
+//    @Deprecated("body 가 제거되면서 사용되지 않음")
+//    @Composable
+//    fun content(onScreenChange: (String) -> Unit) {
+//        //body(onScreenChange)
+//    }
 
     companion object {
         fun fromRoute(route: String?): RallyScreen =
