@@ -148,8 +148,12 @@ fun RallyApp() {
                     deepLinks = listOf(navDeepLink {
                         uriPattern = "rally://$accountsName/{name}"
                     })
-                ) {
-                    
+                ) { entry ->// NavBackStackEntry의 인수에서 "이름"을 찾습니다.
+                    val accountName = entry.arguments?.getString("name")
+                    // UserData에서 일치하는 이름 찾기
+                    val account = UserData.getAccount(accountName)
+                    // SingleAccountBody에 계정 전달
+                    SingleAccountBody(account = account)
                 }
             }
         }
