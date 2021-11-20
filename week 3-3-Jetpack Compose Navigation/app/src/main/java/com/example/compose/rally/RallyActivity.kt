@@ -47,7 +47,10 @@ class RallyActivity : ComponentActivity() {
         }
     }
 }
+/*
+참고: 코드를 테스트 가능하게 만들려면 navController를 전달하지 않는 것이 좋습니다.
 
+ */
 @Composable
 fun RallyApp() {
     RallyTheme {
@@ -60,7 +63,10 @@ fun RallyApp() {
             topBar = {
                 RallyTabRow(
                     allScreens = allScreens,
-                    onTabSelected = { screen -> currentScreen = screen },
+                    onTabSelected = { screen ->
+                        //currentScreen = screen
+                        navController.navigate(screen.name)
+                    },
                     currentScreen = currentScreen
                 )
             }
