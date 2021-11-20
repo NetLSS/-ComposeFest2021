@@ -31,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.rally.ui.components.RallyTabRow
 import com.example.compose.rally.ui.theme.RallyTheme
@@ -57,8 +58,13 @@ fun RallyApp() {
         val allScreens = RallyScreen.values().toList()
         // FIXME: This duplicate source of truth
         //  will be removed later.
-        var currentScreen by rememberSaveable { mutableStateOf(RallyScreen.Overview) }
+        //var currentScreen by rememberSaveable { mutableStateOf(RallyScreen.Overview) }
         val navController = rememberNavController()
+        val backstackEntry = navController.currentBackStackEntryAsState()
+        val currentScreen = RallyScreen.fromRoute( // route 로 부터 현재 스크린 받아오기
+        // 이로써 탭 전환이 정상적으로 되기 시작한다
+            backstackEntry.value?.destination?.route
+        )
         Scaffold(
             topBar = {
                 RallyTabRow(
