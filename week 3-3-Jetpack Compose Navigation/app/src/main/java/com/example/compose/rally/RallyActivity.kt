@@ -87,75 +87,10 @@ fun RallyApp() {
                 )
             }
         ) { innerPadding ->
-            // Navigating with arguments
-            val accountsName = RallyScreen.Accounts.name
-
-            NavHost(
+            RallyNavHost(
                 navController = navController,
-                startDestination = RallyScreen.Overview.name,
                 modifier = Modifier.padding(innerPadding)
-            ) {
-                /*currentScreen.content(
-                    onScreenChange = { screen ->
-                        currentScreen = RallyScreen.valueOf(screen)
-                    }
-                )*/
-                composable(RallyScreen.Overview.name) {
-                    OverviewBody(
-                        onClickSeeAllAccounts = { navController.navigate(RallyScreen.Accounts.name)},
-                        onClickSeeAllBills = { navController.navigate(RallyScreen.Bills.name)},
-                        onAccountClick = { name ->
-                            navigateToSingleAccount(navController, name)
-                        }
-                    )
-                }
-                composable(RallyScreen.Accounts.name) {
-                    AccountsBody(accounts = UserData.accounts) { name ->
-                        navigateToSingleAccount(
-                            navController = navController,
-                            accountName = name
-                        )
-                    }
-                }
-                composable(RallyScreen.Bills.name) {
-                    BillsBody(bills = UserData.bills)
-                }
-
-                composable(
-                    "$accountsName/{name}",
-                    arguments = listOf(
-                        navArgument("name") {
-                            // Make argument type safe
-                            type = NavType.StringType
-                        }
-                    )
-                ) { entry ->// NavBackStackEntry의 인수에서 "이름"을 찾습니다.
-                    val accountName = entry.arguments?.getString("name")
-                    // UserData에서 일치하는 이름 찾기
-                    val account = UserData.getAccount(accountName)
-                    // SingleAccountBody에 계정 전달
-                    SingleAccountBody(account = account)
-                }
-
-                // 딥링크
-                composable(
-                    "$accountsName/{name}",
-                    arguments = listOf(
-                        navArgument("name") {
-                            type = NavType.StringType
-                        },
-                    ),
-                    deepLinks = listOf(navDeepLink {
-                        uriPattern = "rally://$accountsName/{name}"
-                    })
-                ) { entry ->// NavBackStackEntry의 인수에서 "이름"을 찾습니다.
-                    val accountName = entry.arguments?.getString("name")
-                    // UserData에서 일치하는 이름 찾기
-                    val account = UserData.getAccount(accountName)
-                    // SingleAccountBody에 계정 전달
-                    SingleAccountBody(account = account)
-                }
-            }
+            )
         }
     }
 }
@@ -165,4 +100,80 @@ private fun navigateToSingleAccount(
     accountName: String
 ) {
     navController.navigate("${RallyScreen.Accounts.name}/$accountName")
+}
+
+@Composable
+fun RallyNavHost(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    NavHost(
+        navController = navController,
+        startDestination = RallyScreen.Overview.name,
+        modifier = modifier
+    ) {
+        /*currentScreen.content(
+            onScreenChange = { screen ->
+                currentScreen = RallyScreen.valueOf(screen)
+            }
+        )*/
+        composable(RallyScreen.Overview.name) {
+            OverviewBody(
+                onClickSeeAllAccounts = { navController.navigate(RallyScreen.Accounts.name) },
+                onClickSeeAllBills = { navController.navigate(RallyScreen.Bills.name) },
+                onAccountClick = { name ->
+                    navigateToSingleAccount(navController, name)
+                }
+            )
+        }
+        composable(RallyScreen.Accounts.name) {
+            AccountsBody(accounts = UserData.accounts) { name ->
+                navigateToSingleAccount(
+                    navController = navController,
+                    accountName = name
+                )
+            }
+        }
+        composable(RallyScreen.Bills.name) {
+            BillsBody(bills = UserData.bills)
+        }
+
+        // Navigating with arguments
+        val accountsName = RallyScreen.Accounts.name
+
+        composable(
+            "$accountsName/{name}",
+            arguments = listOf(
+                navArgument("name") {
+                    // Make argument type safe
+                    type = NavType.StringType
+                }
+            )
+        ) { entry ->// NavBackStackEntry의 인수에서 "이름"을 찾습니다.
+            val accountName = entry.arguments?.getString("name")
+            // UserData에서 일치하는 이름 찾기
+            val account = UserData.getAccount(accountName)
+            // SingleAccountBody에 계정 전달
+            SingleAccountBody(account = account)
+        }
+
+        // 딥링크
+        composable(
+            "$accountsName/{name}",
+            arguments = listOf(
+                navArgument("name") {
+                    type = NavType.StringType
+                },
+            ),
+            deepLinks = listOf(navDeepLink {
+                uriPattern = "rally://$accountsName/{name}"
+            })
+        ) { entry ->// NavBackStackEntry의 인수에서 "이름"을 찾습니다.
+            val accountName = entry.arguments?.getString("name")
+            // UserData에서 일치하는 이름 찾기
+            val account = UserData.getAccount(accountName)
+            // SingleAccountBody에 계정 전달
+            SingleAccountBody(account = account)
+        }
+    }
 }
