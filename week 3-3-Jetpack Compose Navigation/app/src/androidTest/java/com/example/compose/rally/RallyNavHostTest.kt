@@ -7,6 +7,9 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Before
@@ -56,6 +59,19 @@ class RallyNavHostTest {
         // Then the route is "Bills"
         val route = navController.currentBackStackEntry?.destination?.route
         assertEquals(route, "Bills")
+    }
+
+    @Test
+    fun rallyNavHost_navigateToAllAccounts_callingNavigate() {
+        runBlocking { // UI Thread
+            withContext(Dispatchers.Main) {
+                navController.navigate(RallyScreen.Accounts.name)
+            }
+        }
+        composeTestRule
+            .onNodeWithContentDescription("Accounts Screen")
+            .assertIsDisplayed()
+        // 이를 통해 앱을 탐색하고 경로가 예상한 곳으로 이동한다고 주장할 수 있습니다.
     }
 
 }
