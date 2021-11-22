@@ -3,6 +3,7 @@ package com.example.compose.rally
 import androidx.compose.material.Text
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.example.compose.rally.ui.components.RallyTopAppBar
+import com.example.compose.rally.ui.theme.RallyTheme
 import org.junit.Rule
 import org.junit.Test
 
@@ -36,11 +37,13 @@ class TopAppBarTest {
     fun rallyTopAppBarTest() {
         val allScreens = RallyScreen.values().toList()
         composeTestRule.setContent {
-            RallyTopAppBar(
-                allScreens = allScreens,
-                onTabSelected = { /*todo*/ },
-                currentScreen = RallyScreen.Accounts
-            )
+            RallyTheme {
+                RallyTopAppBar(
+                    allScreens = allScreens,
+                    onTabSelected = { /*todo*/ },
+                    currentScreen = RallyScreen.Accounts
+                )
+            }
         }
         Thread.sleep(5000)
     }
