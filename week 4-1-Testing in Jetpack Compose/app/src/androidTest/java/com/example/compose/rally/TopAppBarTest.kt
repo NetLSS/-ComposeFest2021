@@ -160,5 +160,76 @@ class TopAppBarTest {
          */
     }
 
+    /*
+    탭 안의 텍스트가 표시되는지 여부를 확인하기 위해 병합되지 않은 시맨틱 트리를 쿼리하여
+     useUnmergedTree = true를 onRoot 파인더에 전달할 수 있습니다.
+     */
+    @Test
+    fun rallyTopAppBarTest_currentLabelExists_3() {
+        val allScreens = RallyScreen.values().toList()
+        composeTestRule.setContent {
+            RallyTopAppBar(
+                allScreens = allScreens,
+                onTabSelected = { },
+                currentScreen = RallyScreen.Accounts
+            )
+        }
 
+        composeTestRule.onRoot(useUnmergedTree = true)
+            .printToLog("currentLabelExists")
+
+        /*
+            Printing with useUnmergedTree = 'true'
+    Node #1 at (l=0.0, t=80.0, r=1080.0, b=248.0)px
+     |-Node #2 at (l=0.0, t=80.0, r=1080.0, b=248.0)px
+        |-Node #3 at (l=0.0, t=80.0, r=1080.0, b=248.0)px
+          [SelectableGroup]
+           |-Node #4 at (l=48.0, t=128.0, r=120.0, b=200.0)px
+           | Role = 'Tab'
+           | Selected = 'false'
+           | ContentDescription = '[Overview]'
+           | Actions = [OnClick]
+           | MergeDescendants = 'true'
+           | ClearAndSetSemantics = 'true'
+           |-Node #7 at (l=216.0, t=128.0, r=551.0, b=200.0)px
+           | Role = 'Tab'
+           | Selected = 'true'
+           | ContentDescription = '[Accounts]'
+           | Actions = [OnClick]
+           | MergeDescendants = 'true'
+           | ClearAndSetSemantics = 'true'
+           |  |-Node #2000000007 at (l=0.0, t=0.0, r=0.0, b=0.0)px
+           |  | ContentDescription = '[Accounts]'
+           |  |-Node #10 at (l=324.0, t=128.0, r=551.0, b=180.0)px
+           |  | Text = '[ACCOUNTS]'
+           |  | Actions = [GetTextLayoutResult]
+           |  |-Node #1000000007 at (l=0.0, t=0.0, r=0.0, b=0.0)px
+           |    Role = 'Tab'
+           |-Node #12 at (l=647.0, t=128.0, r=719.0, b=200.0)px
+             Role = 'Tab'
+             Selected = 'false'
+             ContentDescription = '[Bills]'
+             Actions = [OnClick]
+             MergeDescendants = 'true'
+             ClearAndSetSemantics = 'true'
+         */
+        composeTestRule
+            .onNode(
+                hasText(RallyScreen.Accounts.name.uppercase()) and
+                        hasParent(
+                            hasContentDescription(RallyScreen.Accounts.name)
+                        ),
+                useUnmergedTree = true
+            )
+            .assertExists()
+        /*
+        참고: 이 경우 매우 격리된 테스트이기 때문에 엄격하게 매처에 부모를 추가할 필요가 없습니다.
+
+        그러나 더 큰 테스트(텍스트의 다른 인스턴스가 발견될 수 있는 경우)에서 실패할 수 있는
+         광범위한 파인더(예: hasText)를 단독으로 사용하는 것을 피하는 것이 좋습니다.
+
+         축하합니다! 이 단계에서는 속성 병합과 병합 및 병합 해제 시맨틱 트리에 대해 배웠습니다.
+         🎉
+         */
+    }
 }
