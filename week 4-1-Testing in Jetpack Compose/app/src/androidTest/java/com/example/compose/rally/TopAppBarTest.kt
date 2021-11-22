@@ -4,6 +4,8 @@ import androidx.compose.material.Text
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.text.toUpperCase
 import com.example.compose.rally.ui.components.RallyTopAppBar
 import com.example.compose.rally.ui.theme.RallyTheme
 import org.junit.Rule
@@ -72,4 +74,32 @@ class TopAppBarTest {
             .onNodeWithContentDescription(RallyScreen.Accounts.name)
             .assertIsSelected()
     }
+
+
+    /*
+    가능한 해결책은 텍스트를 찾아 존재한다고 주장하는 것입니다.
+     */
+
+    @Test // 탭바 텍스트가 대문자 인지 테스트
+    fun rallyTopAppBarTest_currentLabelExists() {
+        val allScreens = RallyScreen.values().toList()
+        composeTestRule.setContent {
+            RallyTopAppBar(
+                allScreens = allScreens,
+                onTabSelected = { },
+                currentScreen = RallyScreen.Accounts
+            )
+        }
+
+        composeTestRule
+            .onNodeWithText(RallyScreen.Accounts.name.toUpperCase())
+            .assertExists()
+        // However, if you run the test, it fails 😱
+        // In this step you'll learn how to debug this using the [semantics tree].
+    }
+
+    /*
+    Compose 테스트는 의미 체계 트리라는 구조를 사용하여 화면에서 요소를 찾고 해당 속성을 읽습니다.
+    이는 TalkBack과 같은 서비스에서 읽을 수 있도록 접근성 서비스에서도 사용하는 구조입니다.
+     */
 }
