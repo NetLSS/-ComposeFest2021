@@ -41,6 +41,17 @@ RecyclerView를 마이그레이션할 수 있습니다.
 점진적 마이그레이션을 수행합니다. 그런 다음 원하는 경우 마이그레이션을 계속할 수 있을 만큼
 충분히 알게 됩니다.
 
+# 마이그레이션
+
+## 순서
+
+NestedScrollView 내에서 ConstraintLayout 코드와 중첩된 TextView를 제거합니다
+(Codelab은 개별 항목을 마이그레이션할 때 XML 코드를 비교하고 참조하므로
+코드를 주석 처리하면 유용할 것입니다)
+
+compose_view를 뷰 ID로 사용하는 대신 Compose 코드를 호스팅할 ComposeView를 추가합니다.
+
+
 
 # Migrating to Jetpack Compose
 
