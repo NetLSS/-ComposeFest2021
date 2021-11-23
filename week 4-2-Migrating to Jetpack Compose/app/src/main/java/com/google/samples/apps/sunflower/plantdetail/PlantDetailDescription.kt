@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -74,7 +75,12 @@ LiveData에서 내보낸 값이 null일 수 있으므로 null 검사에서 사�
  */
 @Composable
 fun PlantDetailContent(plant: Plant) {
-    PlantName(plant.name)
+    Surface {
+        Column(Modifier.padding(dimensionResource(id = R.dimen.margin_normal))) {
+            PlantName(name = plant.name)
+            PlantWatering(wateringInterval = plant.wateringInterval)
+        }
+    }
 }
 
 @Composable
