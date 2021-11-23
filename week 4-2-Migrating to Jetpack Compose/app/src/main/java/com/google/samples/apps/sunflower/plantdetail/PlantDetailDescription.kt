@@ -16,13 +16,50 @@
 
 package com.google.samples.apps.sunflower.plantdetail
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.google.samples.apps.sunflower.R
 
 @Composable
 fun PlantDetailDescription() {
     Surface {
         Text("Hello Compose")
+    }
+}
+
+@Composable
+private fun PlantName(name: String) {
+    Text(
+        text = name,
+                //  android:textAppearance="?attr/textAppearanceHeadline5"
+        style = MaterialTheme.typography.h5,
+        modifier = Modifier
+                //android:layout_width="match_parent"
+            .fillMaxWidth()
+                //android:layout_marginStart="@dimen/margin_small"
+            .padding(horizontal = dimensionResource(id = R.dimen.margin_small))
+                //android:gravity="center_horizontal"
+            .wrapContentWidth(Alignment.CenterHorizontally)
+    )
+    /*
+    참고: Compose는 dimens.xml 및 strings.xml 파일,
+    즉 dimensionResource(id) 및 stringResource(id)에서 값을 가져오는 편리한 방법을 제공합니다.
+     */
+}
+
+@Preview
+@Composable
+private fun PlantNamePreview() {
+    MaterialTheme {
+        PlantName("Apple")
     }
 }
