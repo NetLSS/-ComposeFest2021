@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material.MaterialTheme
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ShareCompat
 import androidx.core.widget.NestedScrollView
@@ -70,6 +71,13 @@ class PlantDetailFragment : Fragment() {
             }
 
             var isToolbarShown = false
+
+            composeView.setContent {
+                // 여기서 부터 Compose 세계에 있습니다!
+                MaterialTheme {
+                    PlantDetailDescription()
+                }
+            }
 
             // scroll change listener begins at Y = 0 when image is fully collapsed
             plantDetailScrollview.setOnScrollChangeListener(
