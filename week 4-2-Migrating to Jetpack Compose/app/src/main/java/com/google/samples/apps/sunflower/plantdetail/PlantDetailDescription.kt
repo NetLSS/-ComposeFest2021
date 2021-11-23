@@ -39,7 +39,7 @@ fun PlantDetailDescription(plantDetailViewModel: PlantDetailViewModel) {
     val plant by plantDetailViewModel.plant.observeAsState()
 
     // 식물이 null이 아닌 경우 내용을 표시합니다.
-    plant?.let { 
+    plant?.let {
         PlantDetailContent(plant = it)
     }
 }
@@ -78,14 +78,14 @@ fun PlantDetailContent(plant: Plant) {
 private fun PlantName(name: String) {
     Text(
         text = name,
-                //  android:textAppearance="?attr/textAppearanceHeadline5"
+        //  android:textAppearance="?attr/textAppearanceHeadline5"
         style = MaterialTheme.typography.h5,
         modifier = Modifier
-                //android:layout_width="match_parent"
+            //android:layout_width="match_parent"
             .fillMaxWidth()
-                //android:layout_marginStart="@dimen/margin_small"
+            //android:layout_marginStart="@dimen/margin_small"
             .padding(horizontal = dimensionResource(id = R.dimen.margin_small))
-                //android:gravity="center_horizontal"
+            //android:gravity="center_horizontal"
             .wrapContentWidth(Alignment.CenterHorizontally)
     )
     /*
