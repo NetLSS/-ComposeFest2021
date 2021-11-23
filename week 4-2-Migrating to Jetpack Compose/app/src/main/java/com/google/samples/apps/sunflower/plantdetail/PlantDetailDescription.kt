@@ -28,13 +28,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.samples.apps.sunflower.R
+import com.google.samples.apps.sunflower.viewmodels.PlantDetailViewModel
 
 @Composable
-fun PlantDetailDescription() {
+fun PlantDetailDescription(plantDetailViewModel: PlantDetailViewModel) {
     Surface {
         Text("Hello Compose")
     }
 }
+
+/*
+view model
+
+참고:** ViewModel을 사용할 수 없거나 해당 종속성을 컴포저블에 전달하고 싶지 않은 경우 컴포저블
+ 내에서 viewModel** 함수를 사용하여 ViewModel의 인스턴스를 가져올 수 있습니다.
+
+컴포저블에는 자체 ViewModel 인스턴스가 없으며 컴포저블과 해당 Compose 코드(활동 또는 조각)를
+ 호스팅하는 수명 주기 소유자 간에 동일한 인스턴스가 공유됩니다.
+
+ */
 
 @Composable
 private fun PlantName(name: String) {
