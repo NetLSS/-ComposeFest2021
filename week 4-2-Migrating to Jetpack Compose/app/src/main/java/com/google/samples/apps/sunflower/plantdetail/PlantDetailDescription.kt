@@ -16,18 +16,21 @@
 
 package com.google.samples.apps.sunflower.plantdetail
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.samples.apps.sunflower.R
 import com.google.samples.apps.sunflower.data.Plant
@@ -94,6 +97,51 @@ private fun PlantName(name: String) {
      */
 }
 
+@Composable
+private fun PlantWatering(wateringInterval: Int) {
+    Column(Modifier.fillMaxWidth()) {
+        // 두 텍스트에서 사용하는 동일한 수정자
+
+        /*
+        텍스트 컴포저블에서 수평 패딩 및 정렬 장식을 공유하므로 수정자를 로컬 변수
+        (예: centerWithPaddingModifier)에 할당하여 수정자를 재사용할 수 있습니다.
+        수정자는 일반 Kotlin 객체이므로 그렇게 할 수 있습니다.
+         */
+        val centerWithPaddingModifier = Modifier
+            .padding(horizontal = dimensionResource(id = R.dimen.margin_small))
+            .align(Alignment.CenterHorizontally)
+
+        val normalPadding = dimensionResource(id = R.dimen.margin_normal)
+
+        /*
+        Compose의 MaterialTheme는 plant_watering_header에 사용된 colorAccent와 정확히 일치하지
+        않습니다. 지금은 테마 섹션에서 개선할 MaterialTheme.colors.primaryVariant를 사용하겠습니다.
+         */
+        Text(
+            text = stringResource(id = R.string.watering_needs_prefix),
+            color = MaterialTheme.colors.primaryVariant,
+            fontWeight = FontWeight.Bold,
+            modifier = centerWithPaddingModifier.padding(top = normalPadding)
+        )
+
+        val wateringIntervalText = LocalContext.current.resources.getQuantityString(
+            R.plurals.watering_needs_suffix, wateringInterval, wateringInterval
+        )
+        Text(
+            text = wateringIntervalText,
+            modifier = centerWithPaddingModifier.padding(bottom = normalPadding)
+        )
+    }
+    /*
+    경고: Compose의 현재 버전에서는 차원에서 수량화된 문자열을 가져오는 것이 지원되지 않습니다.
+    그렇기 때문에 LocalContext.current.resources를 통해 액세스해야 합니다.
+    기능 요청이 이미 제출되었습니다.
+
+    간단하게 하기 위해 함수를 인라인으로 호출했지만 앱에서 이 작업을 수행하는 경우 재사용할 수
+     있도록 다른 함수로 추출합니다.
+     */
+}
+
 @Preview
 @Composable
 private fun PlantNamePreview() {
@@ -108,5 +156,13 @@ private fun PlantDetailContentPreview() {
     val plant = Plant("id", "Apple", "description", 3, 30, "")
     MaterialTheme {
         PlantDetailContent(plant = plant)
+    }
+}
+
+@Preview
+@Composable
+private fun PlantWateringPreview() {
+    MaterialTheme {
+        PlantWatering(wateringInterval = 7)
     }
 }
