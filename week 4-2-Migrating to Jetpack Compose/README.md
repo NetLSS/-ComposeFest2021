@@ -51,6 +51,24 @@ NestedScrollView 내에서 ConstraintLayout 코드와 중첩된 TextView를 제�
 
 compose_view를 뷰 ID로 사용하는 대신 Compose 코드를 호스팅할 ComposeView를 추가합니다.
 
+## 10. ViewCompositionStrategy
+
+
+기본적으로 Compose는 ComposeView가 창에서 분리될 때마다 컴포지션을 삭제합니다. 여러 가지 이유로
+ComposeView가 조각(Fragment)에서 사용되는 경우 이는 바람직하지 않습니다.
+
+- 컴포지션은 Compose UI 보기 유형이 상태를 저장하기 위해 프래그먼트의 보기 수명 주기를 따라야 합니다.
+- 전환 또는 창 전환이 발생할 때 Compose UI 요소를 화면에 유지합니다. 전환하는 동안 ComposeView 자체는 창에서 분리된 후에도 계속 표시됩니다.
+
+AbstractComposeView.disposeComposition 메서드를 수동으로 호출하여 컴포지션을 수동으로 삭제할 수 있습니다.
+
+또는 더 이상 필요하지 않을 때 컴포지션을 자동으로 폐기하려면 다른 전략을 설정하거나 setViewCompositionStrategy 메서드를 호출하여 자신만의 전략을 만드십시오.
+
+DisposeOnViewTreeLifecycleDestroyed 전략을 사용하여 조각의 LifecycleOwner가 파괴될 때 컴포지션을 삭제합니다.
+
+PlantDetailFragment에는 진입 및 종료 전환이 있고(자세한 정보는 nav_garden.xml 확인) 나중에 Compose 내부에서 View 유형을 사용할 것이므로 ComposeView가 DisposeOnViewTreeLifecycleDestroyed 전략을 사용하는지 확인해야 합니다.
+
+그럼에도 불구하고 조각에서 ComposeView를 사용할 때 항상 이 전략을 설정하는 것이 좋습니다.
 
 
 # Migrating to Jetpack Compose
