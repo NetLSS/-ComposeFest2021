@@ -16,6 +16,8 @@
 
 package com.google.samples.apps.sunflower.plantdetail
 
+import android.text.method.LinkMovementMethod
+import android.widget.TextView
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,6 +28,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +36,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.text.HtmlCompat
 import com.google.samples.apps.sunflower.R
 import com.google.samples.apps.sunflower.data.Plant
 import com.google.samples.apps.sunflower.viewmodels.PlantDetailViewModel
@@ -146,6 +151,46 @@ private fun PlantWatering(wateringInterval: Int) {
     간단하게 하기 위해 함수를 인라인으로 호출했지만 앱에서 이 작업을 수행하는 경우 재사용할 수
      있도록 다른 함수로 추출합니다.
      */
+}
+
+/*
+Note: AndroidView takes a View created programmatically. In case you want to embed a XML file,
+ you can do it using view binding with the AndroidViewBinding API from the
+ androidx.compose.ui:ui-viewbinding library.
+ */
+
+@Composable
+private fun PlantDescription(description: String) {
+    // HTML 형식의 설명을 기억합니다. 새 설명에서 재실행
+    // Remembers the HTML formatted description. Re-executes on a new description
+    val htmlDescription = remember(description) {
+        HtmlCompat.fromHtml(description, HtmlCompat.FROM_HTML_MODE_COMPACT) // Spanned ? 가뭐지..
+        // 텍스트 개별로 스타일 주는 것 인듯,
+    }
+
+    // Displays the TextView on the screen and updates with the HTML description when inflated
+    // Updates to htmlDescription will make AndroidView recompose and update the text
+    // TextView를 화면에 표시하고 확장되면 HTML 설명으로 업데이트합니다.
+    // htmlDescription을 업데이트하면 AndroidView가 텍스트를 재구성하고 업데이트합니다.
+    AndroidView(
+        factory = { context ->
+            TextView(context).apply {
+                movementMethod = LinkMovementMethod.getInstance()
+            }
+        },
+        update = {
+            it.text = htmlDescription // 변경되면 재구성.
+        })
+
+
+}
+
+@Preview
+@Composable
+private fun PlantDescriptionPreview() {
+    MaterialTheme {
+        PlantDescription("HTML<br><br>description")
+    }
 }
 
 @Preview
