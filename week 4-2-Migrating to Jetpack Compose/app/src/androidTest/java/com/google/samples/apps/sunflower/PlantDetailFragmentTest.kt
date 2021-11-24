@@ -20,6 +20,9 @@ import android.accessibilityservice.AccessibilityService
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithText
 import androidx.navigation.Navigation.findNavController
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -45,12 +48,21 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/*
+활동(Activity) 또는 프래그먼트(Fragment)가 작성을 사용하는 경우 ActivityScenarioRule을
+ 사용하는 대신 Compose 코드를
+ 테스트할 수 있는 ComposeTestRule과 ActivityScenarioRule을 통합하는 createAndroidComposeRule을
+ 사용해야 합니다.
+
+ */
+
 @RunWith(AndroidJUnit4::class)
 class PlantDetailFragmentTest {
 
     @Rule
     @JvmField
-    val activityTestRule = ActivityScenarioRule(GardenActivity::class.java)
+    //val activityTestRule = ActivityScenarioRule(GardenActivity::class.java)
+    val composeTestRule = createAndroidComposeRule<GardenActivity>()
 
     // Note that keeping these references is only safe if the activity is not recreated.
     private lateinit var activity: ComponentActivity
@@ -59,7 +71,7 @@ class PlantDetailFragmentTest {
     fun jumpToPlantDetailFragment() {
         populateDatabase()
 
-        activityTestRule.scenario.onActivity { gardenActivity ->
+        composeTestRule.activityRule.scenario.onActivity { gardenActivity ->
             activity = gardenActivity
 
             val bundle = Bundle().apply { putString("plantId", "malus-pumila") }
@@ -67,13 +79,14 @@ class PlantDetailFragmentTest {
         }
     }
 
-    @Test
+    @Test // testPlantName은 화면에서 식물의 이름을 확인합니다.
     fun testPlantName() {
-        onView(ViewMatchers.withText("Apple"))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        /*onView(ViewMatchers.withText("Apple"))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))*/
+        composeTestRule.onNodeWithText("Apple").assertIsDisplayed()
     }
 
-    @Test
+    @Test // testShareTextIntent는 공유 버튼을 탭한 후 올바른 의도가 트리거되는지 확인합니다.
     fun testShareTextIntent() {
         val shareText = activity.getString(R.string.share_text_plant, testPlant.name)
 

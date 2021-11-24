@@ -70,6 +70,10 @@ PlantDetailFragment에는 진입 및 종료 전환이 있고(자세한 정보는
 
 그럼에도 불구하고 조각에서 ComposeView를 사용할 때 항상 이 전략을 설정하는 것이 좋습니다.
 
+## Testing
+
+참고: 실제 앱에서는 테스트 없이 레거시 코드를 다시 작성해서는 안 됩니다. 또한 코드를 Compose로 마이그레이션하는 동안 테스트를 리팩토링하고 녹색으로 유지해야 합니다.
+
 
 # Migrating to Jetpack Compose
 
