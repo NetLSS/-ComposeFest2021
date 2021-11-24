@@ -31,6 +31,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.composethemeadapter.MdcTheme
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.samples.apps.sunflower.R
@@ -82,7 +83,8 @@ class PlantDetailFragment : Fragment() {
 
                 setContent {
                     // 여기서 부터 Compose 세계에 있습니다!
-                    MaterialTheme {
+                    //MaterialTheme {
+                    MdcTheme {
                         PlantDetailDescription(plantDetailViewModel)
                     }
                 }
